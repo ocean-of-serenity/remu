@@ -1906,7 +1906,7 @@ format: J
         | 0100001 | 00000 |   rs1 |    rm |   rd | 1010011 |
 
 
-    -   Funct5 `00100`: FROUND.S
+    -   Funct5 `00100`: FROUND.D
 
         format: R
     
@@ -1915,7 +1915,7 @@ format: J
         | 0100001 | 00100 |   rs1 |    rm |   rd | 1010011 |
 
 
-    -   Funct5 `00101`: FROUNDNX.S
+    -   Funct5 `00101`: FROUNDNX.D
 
         format: R
     
@@ -2459,7 +2459,7 @@ format: U
         | 0100000 | uimm[4:0] |   rs1 |   101 |   rd | 0011011 |
 
 
-    -   Funct7 `0110000`: RORI
+    -   Funct7 `0110000`: RORIW
 
         format: I
 
@@ -2555,7 +2555,7 @@ format: U
         | 0000100 | 00000 |   rs1 |   100 |   rd | 0111011 |
 
 
-    -   Funct7 `0010000`: SH2ADD.UI
+    -   Funct7 `0010000`: SH2ADD.UW
 
         format: R
 
