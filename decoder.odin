@@ -3,6 +3,7 @@ package decoder
 
 
 import "core:fmt"
+import "core:reflect"
 
 
 Reg64 :: enum {
@@ -42,20 +43,388 @@ C_LW :: struct {
 }
 
 
-IDec :: union {
+C_LD :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_LBU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_LHU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_LH :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_SB :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	uimm:	u64le
+}
+
+
+C_SH :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	uimm:	u64le
+}
+
+
+C_FSD :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	uimm:	u64le
+}
+
+
+C_SW :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	uimm:	u64le
+}
+
+
+C_SD :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	uimm:	u64le
+}
+
+
+ADD :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MUL :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SUB :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SLL :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MULH :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+CLMUL :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+BSET :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+BCLR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+ROL :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+BINV :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SLT :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MULHSU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+CLMULR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SH1ADD :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+XPERM_N :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SLTU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MULHU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+CLMULH :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+XOR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+DIV :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+PACK :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MIN :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SH2ADD :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+XPERM_B :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+XNOR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SRL :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+DIVU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MINU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+CZERO_EQZ :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SRA :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+BEXT :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+ROR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+OR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+REM :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MAX :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+SH3ADD :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+ORN :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+AND :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+REMU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+PACKH :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+MAXU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+CZERO_NEZ :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+ANDN :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+IDec :: union #no_nil {
 	ILLEGAL,
+
+	// Q0
 	C_ADDI4SPN,
 	C_FLD,
 	C_LW,
-//	C_LD,
-//	C_LBU,
-//	C_LHU,
-//	C_LH,
-//	C_SB,
-//	C_SH,
-//	C_FSD,
-//	C_SW,
-//	C_SD,
+	C_LD,
+	C_LBU,
+	C_LHU,
+	C_LH,
+	C_SB,
+	C_SH,
+	C_FSD,
+	C_SW,
+	C_SD,
+
+
 //	C_NOP,
 //	C_ADDI,
 //	C_ADDIW,
@@ -174,49 +543,53 @@ IDec :: union {
 //	REV8,
 //	ORI,
 //	ANDI,
-//	ADD,
-//	MUL,
-//	SUB,
-//	SLL,
-//	MULH,
-//	CLMUL,
-//	BSET,
-//	BCLR,
-//	ROL,
-//	BINV,
-//	SLT,
-//	MULHSU,
-//	CLMULR,
-//	SH1ADD,
-//	XPERM_N,
-//	SLTU,
-//	MULHU,
-//	CLMULH,
-//	XOR,
-//	DIV,
-//	PACK,
-//	MIN,
-//	SH2ADD,
-//	XPERM_B,
-//	XNOR,
-//	SRL,
-//	DIVU,
-//	MINU,
-//	CZERO_EQZ,
-//	SRA,
-//	BEXT,
-//	ROR,
-//	OR,
-//	REM,
-//	MAX,
-//	SH3ADD,
-//	ORN,
-//	AND,
-//	REMU,
-//	PACKH,
-//	MAXU,
-//	CZERO_NEZ,
-//	ANDN,
+
+	// OP
+	ADD,
+	MUL,
+	SUB,
+	SLL,
+	MULH,
+	CLMUL,
+	BSET,
+	BCLR,
+	ROL,
+	BINV,
+	SLT,
+	MULHSU,
+	CLMULR,
+	SH1ADD,
+	XPERM_N,
+	SLTU,
+	MULHU,
+	CLMULH,
+	XOR,
+	DIV,
+	PACK,
+	MIN,
+	SH2ADD,
+	XPERM_B,
+	XNOR,
+	SRL,
+	DIVU,
+	MINU,
+	CZERO_EQZ,
+	SRA,
+	BEXT,
+	ROR,
+	OR,
+	REM,
+	MAX,
+	SH3ADD,
+	ORN,
+	AND,
+	REMU,
+	PACKH,
+	MAXU,
+	CZERO_NEZ,
+	ANDN,
+
+
 //	FADD_S,
 //	FADD_D,
 //	FSUB_S,
@@ -323,6 +696,39 @@ IDec :: union {
 }
 
 
+IType :: enum u8 {
+	I16_Q0	= 0b00,
+	I16_Q1	= 0b01,
+	I16_Q2	= 0b10,
+	I32		= 0b11
+}
+
+
+I32_Opcode :: enum u8 {
+	LOAD		= 0b0000011,
+	STORE		= 0b0100011,
+	MADD		= 0b1000011,
+	BRANCH		= 0b1100011,
+	LOAD_FP		= 0b0000111,
+	STORE_FP	= 0b0100111,
+	MSUB		= 0b1000111,
+	JALR		= 0b1100111,
+	NMSUB		= 0b1001011,
+	MISC_MEM	= 0b0001111,
+	AMO			= 0b0101111,
+	NMADD		= 0b1001111,
+	JAL			= 0b1101111,
+	OP_IMM		= 0b0010011,
+	OP			= 0b0110011,
+	OP_FP		= 0b1010011,
+	SYSTEM		= 0b1110011,
+	AUIPC		= 0b0010111,
+	LUI			= 0b0110111,
+	OP_IMM_32	= 0b0011011,
+	OP_32		= 0b0111011
+}
+
+
 I16_Base :: bit_field u16le {
 	opc:	u8		| 2,
 	pad:	u16le	| 11,
@@ -339,7 +745,7 @@ I32_Base :: bit_field u32le {
 }
 
 
-handle_cq0 :: proc(ie: I16_Base) -> IDec {
+handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 	switch ie.funct3 {
 	case 0x0:
 		ADDI4SPN_ENC :: bit_field u16le {
@@ -354,9 +760,9 @@ handle_cq0 :: proc(ie: I16_Base) -> IDec {
 
 		ie := transmute(ADDI4SPN_ENC) ie
 
-		if	ie.rd_r  == 0 || ie.uimm2    == 0 ||
-			ie.uimm3 == 0 || ie.uimm6to9 == 0 || ie.uimm4to5 == 0 {
-			return ILLEGAL{}
+		if	ie.rd_r		== 0 || ie.uimm2		== 0 ||
+			ie.uimm3	== 0 || ie.uimm6to9		== 0 || ie.uimm4to5 == 0 {
+			return
 		}
 
 		UIMM_DEC :: bit_field u16le {
@@ -368,8 +774,8 @@ handle_cq0 :: proc(ie: I16_Base) -> IDec {
 		}
 
 		return C_ADDI4SPN{
-			rd = Reg64(ie.rd_r) + Reg64.x7,
-			uimm = u64le(UIMM_DEC{
+			rd		= Reg64(ie.rd_r) + Reg64.x7,
+			uimm	= u64le(UIMM_DEC{
 				uimm0to1	= 0,
 				uimm2		= ie.uimm2,
 				uimm3		= ie.uimm3,
@@ -437,150 +843,873 @@ handle_cq0 :: proc(ie: I16_Base) -> IDec {
 			})
 		}
 
-//	case 0x3:
-//		ie := transmute(I16_CL_CS) ie
-//
-//		id.type	= IType.C_LD
-//		id.uimm	= u64le(ie.uimm2 << 3 | ie.uimm1 << 6)
-//		id.rd	= Reg64(ie.reg1) + Reg64.x7
-//		id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//		return
-//
-//	case 0x4:
-//		ie := transmute(I16_CL_CS) ie
-//
-//		switch ie.uimm2 {
-//		case 0b000:
-//			id.type	= IType.C_LBU
-//			id.uimm	= u64le(
-//				(ie.uimm1 & 0b10) >> 1 |
-//				(ie.uimm1 & 0b01) << 1
-//			)
-//			id.rd	= Reg64(ie.reg1) + Reg64.x7
-//			id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//			return
-//
-//		case 0b001:
-//			switch (ie.uimm1 & 0b10) >> 1 {
-//			case 0:
-//				id.type	= IType.C_LHU
-//				id.uimm	= u64le((ie.uimm1 & 0b01) << 1)
-//				id.rd	= Reg64(ie.reg1) + Reg64.x7
-//				id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//				return
-//				
-//			case 1:
-//				id.type	= IType.C_LH
-//				id.uimm	= u64le((ie.uimm1 & 0b01) << 1)
-//				id.rd	= Reg64(ie.reg1) + Reg64.x7
-//				id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//				return
-//			}
-//
-//		case 0b010:
-//			id.type	= IType.C_SB
-//			id.uimm	= u64le(
-//				(ie.uimm1 & 0b10) >> 1 |
-//				(ie.uimm1 & 0b01) << 1
-//			)
-//			id.rs2	= Reg64(ie.reg1) + Reg64.x7
-//			id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//			return
-//			
-//		case 0b011:
-//			if (ie.uimm1 & 0b10) != 0 do return
-//
-//			id.type	= IType.C_SH
-//			id.uimm	= u64le((ie.uimm1 & 0b01) << 1)
-//			id.rs2	= Reg64(ie.reg1) + Reg64.x7
-//			id.rs1	= Reg64(ie.reg2) + Reg64.x7
-//
-//			return
-//		}
-//	case 0x5:
-//	case 0x6:
-//	case 0x7:
-	}
-
-	return ILLEGAL{}
-}
-
-
-handle_cq1 :: proc(ie: I16_Base) -> IDec {
-	return ILLEGAL{}
-}
-
-
-handle_cq2 :: proc(ie: I16_Base) -> IDec {
-	return ILLEGAL{}
-}
-
-
-handle_i :: proc(ie: I32_Base) -> IDec {
-	return ILLEGAL{}
-}
-
-
-decode_insn :: proc(memory: [^]u8) -> IDec {
-	switch memory[0] & 0b11 {
-	case 0b00:
-		fmt.println("OP: Q0")
-
-		ie := transmute(I16_Base) (cast(^u16le) &memory[0])^
-
-		if	ie.opc == 0 && ie.funct3 == 0 && ie.pad == 0 {
-			return ILLEGAL{}
+	case 0x3:
+		C_LD_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rd_r:		u8 | 3,
+			uimm6to7:	u8 | 2,
+			rs1_r:		u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
 		}
 
-		return handle_cq0(ie)
+		ie := transmute(C_LD_ENC) ie
 
-	case 0b01:
-		fmt.println("OP: 16b Q1")
+		UIMM_DEC :: bit_field u8 {
+			uimm0to2:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			uimm6to7:	u8 | 2
+		}
 
-		ie := transmute(I16_Base) (cast(^u16le) &memory[0])^
+		return C_LD{
+			rd		= Reg64(ie.rd_r) + Reg64.x7,
+			rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to5	= ie.uimm3to5,
+				uimm6to7	= ie.uimm6to7
+			})
+		}
 
-		return handle_cq1(ie)
+	case 0x4:
+		I16_Base_2Funct3 :: bit_field u16le {
+			opc:		u8 | 2,
+			pad1:		u8 | 4,
+			funct1:		u8 | 1,
+			pad2:		u8 | 3,
+			funct3_2:	u8 | 3,
+			funct3_1:	u8 | 3
+		}
 
-	case 0b10:
-		fmt.println("OP: 16b Q2")
+		ie := transmute(I16_Base_2Funct3) ie
 
-		ie := transmute(I16_Base) (cast(^u16le) &memory[0])^
+		switch ie.funct3_2 {
+		case 0x0:
+			C_LBU_ENC :: bit_field u16le {
+				opc:		u8 | 2,
+				rd_r:		u8 | 3,
+				uimm1:		u8 | 1,
+				uimm0:		u8 | 1,
+				rs1_r:		u8 | 3,
+				funct3_2:	u8 | 3,
+				funct3_1:	u8 | 3
+			}
 
-		return handle_cq2(ie)
+			ie := transmute(C_LBU_ENC) ie
 
-	case 0b11:
-		fmt.println("OP: 32b I")
+			UIMM_DEC :: bit_field u8 {
+				uimm0:	u8 | 1,
+				uimm1:	u8 | 1
+			}
 
-		ie := transmute(I32_Base) (cast(^u32le) &memory[0])^
+			return C_LBU{
+				rd		= Reg64(ie.rd_r) + Reg64.x7,
+				rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+				uimm	= u64le(UIMM_DEC{
+					uimm0	= ie.uimm0,
+					uimm1	= ie.uimm1
+				})
+			}
 
-		return handle_i(ie)
+		case 0x1:
+			switch ie.funct1 {
+			case 0:
+				C_LHU_ENC :: bit_field u16le {
+					opc:		u8 | 2,
+					rd_r:		u8 | 3,
+					uimm1:		u8 | 1,
+					funct1:		u8 | 1,
+					rs1_r:		u8 | 3,
+					funct3_2:	u8 | 3,
+					funct3_1:	u8 | 3
+				}
+
+				ie := transmute(C_LHU_ENC) ie
+
+				UIMM_DEC :: bit_field u8 {
+					uimm0:	u8 | 1,
+					uimm1:	u8 | 1
+				}
+
+				return C_LHU{
+					rd		= Reg64(ie.rd_r) + Reg64.x7,
+					rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+					uimm	= u64le(UIMM_DEC{
+						uimm0	= 0,
+						uimm1	= ie.uimm1
+					})
+				}
+
+			case 1:
+				C_LH_ENC :: bit_field u16le {
+					opc:		u8 | 2,
+					rd_r:		u8 | 3,
+					uimm1:		u8 | 1,
+					funct1:		u8 | 1,
+					rs1_r:		u8 | 3,
+					funct3_2:	u8 | 3,
+					funct3_1:	u8 | 3
+				}
+
+				ie := transmute(C_LH_ENC) ie
+
+				UIMM_DEC :: bit_field u8 {
+					uimm0:	u8 | 1,
+					uimm1:	u8 | 1
+				}
+
+				return C_LH{
+					rd		= Reg64(ie.rd_r) + Reg64.x7,
+					rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+					uimm	= u64le(UIMM_DEC{
+						uimm0	= 0,
+						uimm1	= ie.uimm1
+					})
+				}
+			}
+
+		case 0x2:
+			C_SB_ENC :: bit_field u16le {
+				opc:		u8 | 2,
+				rs2_r:		u8 | 3,
+				uimm1:		u8 | 1,
+				uimm0:		u8 | 1,
+				rs1_r:		u8 | 3,
+				funct3_2:	u8 | 3,
+				funct3_1:	u8 | 3
+			}
+
+			ie := transmute(C_SB_ENC) ie
+
+			UIMM_DEC :: bit_field u8 {
+				uimm0:	u8 | 1,
+				uimm1:	u8 | 1
+			}
+
+			return C_SB{
+				rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+				rs2		= Reg64(ie.rs2_r) + Reg64.x7,
+				uimm	= u64le(UIMM_DEC{
+					uimm0	= ie.uimm0,
+					uimm1	= ie.uimm1
+				})
+			}
+
+		case 0x3:
+			C_SH_ENC :: bit_field u16le {
+				opc:		u8 | 2,
+				rs2_r:		u8 | 3,
+				uimm1:		u8 | 1,
+				funct1:		u8 | 1,
+				rs1_r:		u8 | 3,
+				funct3_2:	u8 | 3,
+				funct3_1:	u8 | 3
+			}
+
+			ie := transmute(C_SH_ENC) ie
+
+			if ie.funct1 == 1 do return
+
+			UIMM_DEC :: bit_field u8 {
+				uimm0:	u8 | 1,
+				uimm1:	u8 | 1
+			}
+
+			return C_SH{
+				rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+				rs2		= Reg64(ie.rs2_r) + Reg64.x7,
+				uimm	= u64le(UIMM_DEC{
+					uimm0	= 0,
+					uimm1	= ie.uimm1
+				})
+			}
+		}
+
+	case 0x5:
+		C_FSD_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs2_r:		u8 | 3,
+			uimm6to7:	u8 | 2,
+			rs1_r:		u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_FSD_ENC) ie
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to2:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			uimm6to7:	u8 | 2
+		}
+
+		return C_FSD{
+			rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+			rs2		= Reg64(ie.rs2_r) + Reg64.x7,
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to5	= ie.uimm3to5,
+				uimm6to7	= ie.uimm6to7
+			})
+		}
+
+	case 0x6:
+		C_SW_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs2_r:		u8 | 3,
+			uimm6:		u8 | 1,
+			uimm2:		u8 | 1,
+			rs1_r:		u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_SW_ENC) ie
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to1:	u8 | 2,
+			uimm2:		u8 | 1,
+			uimm3to5:	u8 | 3,
+			uimm6:		u8 | 1
+		}
+
+		return C_SW{
+			rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+			rs2		= Reg64(ie.rs2_r) + Reg64.x7,
+			uimm	= u64le(UIMM_DEC{
+				uimm0to1	= 0,
+				uimm2		= ie.uimm2,
+				uimm3to5	= ie.uimm3to5,
+				uimm6		= ie.uimm6
+			})
+		}
+
+	case 0x7:
+		C_SD_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs2_r:		u8 | 3,
+			uimm6to7:	u8 | 2,
+			rs1_r:		u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_SD_ENC) ie
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to2:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			uimm6to7:	u8 | 2
+		}
+
+		return C_SD{
+			rs1		= Reg64(ie.rs1_r) + Reg64.x7,
+			rs2		= Reg64(ie.rs2_r) + Reg64.x7,
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to5	= ie.uimm3to5,
+				uimm6to7	= ie.uimm6to7
+			})
+		}
 	}
 
-	return ILLEGAL{}
+	return
+}
+
+
+handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_load :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_store :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_madd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_branch :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_load_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_store_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_msub :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_jalr :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_nmsub :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_misc_mem :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_amo :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_nmadd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_jal :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_op :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	I32_FMT_R :: bit_field u32le {
+		opc:	u8 | 7,
+		rd:		u8 | 5,
+		funct3:	u8 | 3,
+		rs1:	u8 | 5,
+		rs2:	u8 | 5,
+		funct7:	u8 | 7
+	}
+
+	ie := transmute(I32_FMT_R) ie
+
+	switch ie.funct3 {
+	case 0x0:
+		switch ie.funct7 {
+		case 0x0:
+			return ADD{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x1:
+			return MUL{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x20:
+			return SUB{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x1:
+		switch ie.funct7 {
+		case 0x00:
+			return SLL{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return MULH{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return CLMUL{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x14:
+			return BSET{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x24:
+			return BCLR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x30:
+			return ROL{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x34:
+			return BINV{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x2:
+		switch ie.funct7 {
+		case 0x00:
+			return SLT{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return MULHSU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return CLMULR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x10:
+			return SH1ADD{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x14:
+			return XPERM_N{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x3:
+		switch ie.funct7 {
+		case 0x00:
+			return SLTU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return MULHU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return CLMULH{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x4:
+		switch ie.funct7 {
+		case 0x00:
+			return XOR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return DIV{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x04:
+			return PACK{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return MIN{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x10:
+			return SH2ADD{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x14:
+			return XPERM_B{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x20:
+			return XNOR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x5:
+		switch ie.funct7 {
+		case 0x00:
+			return SRL{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return DIVU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return MINU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x07:
+			return CZERO_EQZ{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x20:
+			return SRA{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x24:
+			return BEXT{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x30:
+			return ROR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x6:
+		switch ie.funct7 {
+		case 0x00:
+			return OR{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return REM{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return MAX{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x10:
+			return SH3ADD{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x20:
+			return ORN{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+
+	case 0x7:
+		switch ie.funct7 {
+		case 0x00:
+			return AND{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x01:
+			return REMU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x04:
+			return PACKH{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x05:
+			return MAXU{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x07:
+			return CZERO_NEZ{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+
+		case 0x20:
+			return ANDN{
+				rd	= Reg64(ie.rd),
+				rs1 = Reg64(ie.rs1),
+				rs2 = Reg64(ie.rs2)
+			}
+		}
+	}
+
+	return
+}
+
+
+handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_system :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_auipc :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_lui :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_op_imm_32 :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+handle_i32opc_op_32 :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	return
+}
+
+
+decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
+	// Without checking the opcode it is impossible to determine whether a
+	// given instruction is 2 bytes long or 4 bytes long unless the memory
+	// buffer only has 2 bytes left.
+	//
+	// As such, the 2 byte case should only occur when when there is not enough
+	// space left in the backing buffer to create a slice of 4 bytes
+	if ilen := len(mem); ilen != 4 && ilen != 2 {
+		panic("instructions must be either 2 or 4 bytes long")
+	}
+
+
+	type := IType(mem[0] & 0b11)
+	fmt.println(type)
+
+
+	switch type {
+	case .I16_Q0:
+		ie := transmute(I16_Base) (cast(^u16le) raw_data(mem))^
+
+		if ie.opc == 0 && ie.funct3 == 0 && ie.pad == 0 do return
+
+		return handle_i16opc_q0(ie)
+
+	case .I16_Q1:
+		ie := transmute(I16_Base) (cast(^u16le) raw_data(mem))^
+
+		return handle_i16opc_q1(ie)
+
+	case .I16_Q2:
+		ie := transmute(I16_Base) (cast(^u16le) raw_data(mem))^
+
+		return handle_i16opc_q2(ie)
+
+	case .I32:
+		ie := transmute(I32_Base) (cast(^u32le) raw_data(mem))^
+
+		if	ie.opc		== 0 && ie.funct7	== 0 &&
+			ie.funct3	== 0 && ie.pad1		== 0 && ie.pad2 == 0 {
+			return
+		}
+
+		i32opc := I32_Opcode(ie.opc)
+
+		if reflect.enum_value_has_name(i32opc) == false do return
+
+		switch i32opc {
+		case .LOAD:
+			return handle_i32opc_load(ie)
+
+		case .STORE:
+			return handle_i32opc_store(ie)
+
+		case .MADD:
+			return handle_i32opc_madd(ie)
+
+		case .BRANCH:
+			return handle_i32opc_branch(ie)
+
+		case .LOAD_FP:
+			return handle_i32opc_load_fp(ie)
+
+		case .STORE_FP:
+			return handle_i32opc_store_fp(ie)
+
+		case .MSUB:
+			return handle_i32opc_msub(ie)
+
+		case .JALR:
+			return handle_i32opc_jalr(ie)
+
+		case .NMSUB:
+			return handle_i32opc_nmsub(ie)
+
+		case .MISC_MEM:
+			return handle_i32opc_misc_mem(ie)
+
+		case .AMO:
+			return handle_i32opc_amo(ie)
+
+		case .NMADD:
+			return handle_i32opc_nmadd(ie)
+
+		case .JAL:
+			return handle_i32opc_jal(ie)
+
+		case .OP_IMM:
+			return handle_i32opc_op_imm(ie)
+
+		case .OP:
+			return handle_i32opc_op(ie)
+
+		case .OP_FP:
+			return handle_i32opc_op_fp(ie)
+
+		case .SYSTEM:
+			return handle_i32opc_system(ie)
+
+		case .AUIPC:
+			return handle_i32opc_auipc(ie)
+
+		case .LUI:
+			return handle_i32opc_lui(ie)
+
+		case .OP_IMM_32:
+			return handle_i32opc_op_imm_32(ie)
+
+		case .OP_32:
+			return handle_i32opc_op_32(ie)
+		}
+	}
+
+	return
 }
 
 
 main :: proc() {
-	memory: [128]u8 = 0
-	w16: ^u16le
-	w32: ^u32le
+	memory:	[128]u8	= 0
+	pc:		u64le	= 0
+	w16:	^u16le
+	w32:	^u32le
 
 
-	w16 = cast(^u16le)&memory[0]
-	w16^ = 0b010_000_001_01_001_00					// 'C.LW x8 2(x7)'
-	w32 = cast(^u32le)&memory[2]
-	w32^ = 0b0000001_00011_00101_000_00011_0110011	// 'MUL x3 x5 x3'
-	w32 = cast(^u32le)&memory[6]
-	w32^ = 0b0000001_00011_00101_000_00011_0110011	// 'MUL x3 x5 x3'
+	w16		= cast(^u16le) &memory[0]
+	w16^	= 0b010_001_010_00_001_00					// 'C.LW x8 8(x9)'
+
+	w32		= cast(^u32le) &memory[2]
+	w32^	= 0b0000001_00011_00101_000_00011_0110011	// 'MUL x3 x5 x3'
+
+	w32		= cast(^u32le) &memory[6]
+	w32^	= 0b0100000_00011_00101_111_00011_0110011	// 'ANDN x3 x5 x3'
 
 
-	fmt.println(decode_insn(raw_data(memory[0:])))
-	fmt.println(decode_insn(raw_data(memory[2:])))
-	fmt.println(decode_insn(raw_data(memory[6:])))
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 2
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
 }
 
