@@ -557,6 +557,12 @@ ANDN :: struct {
 }
 
 
+AUIPC :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
 IDec :: union #no_nil {
 	ILLEGAL,
 
@@ -815,7 +821,10 @@ IDec :: union #no_nil {
 //	CSRRWI,
 //	CSRRSI,
 //	CSRRCI,
-//	AUIPC,
+
+	// AUIPC
+	AUIPC,
+
 //	LUI,
 //	ADDIW,
 //	SLLIW,
@@ -924,7 +933,7 @@ sign_extend_to_i64le :: proc(bits: u64le, size: uint, shift: uint = 0) -> i64le 
 	//
 	// ==> if the most significant bit within the range is not set, then no
 	// bits need to be set because numbers are zero-initialized in odin
-	if bits & (1 << (size - 1)) == 1 {
+	if bits & (1 << (size - 1)) != 0 {
 		return transmute(i64le) ((~u64le(0) << size | bits) << shift)
 	}
 	else {
@@ -1965,7 +1974,29 @@ handle_i32opc_system :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_auipc :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	I32_FMT_U :: bit_field u32le {
+		opc:		u8		| 7,
+		rd:			u8		| 5,
+		uimm12to31:	u32le	| 20
+	}
+
+	ie := transmute(I32_FMT_U) ie
+
+	UIMM_DEC :: bit_field u32le {
+		uimm0to11:	u16le | 12,
+		uimm12to31:	u32le | 20
+	}
+
+	return AUIPC{
+		rd	= Reg64(ie.rd),
+		imm	= sign_extend_to_i64le(
+			u64le(UIMM_DEC{
+				uimm0to11	= 0,
+				uimm12to31	= ie.uimm12to31
+			}),
+			32
+		)
+	}
 }
 
 
@@ -2125,11 +2156,25 @@ main :: proc() {
 	w32^	= 0b000011000000_10011_010_00111_0010011	// 'SLTI x7 x19 192'
 	pc += 4
 
+	w32		= cast(^u32le) &memory[pc]
+	w32^	= 0b1000_0000_0011_0000_0000_01001_0010111	// 'AUIPC x9 -2_144_337_920'
+	pc += 4
+
+	w32		= cast(^u32le) &memory[pc]
+	w32^	= 0b0000_0000_0000_1100_0000_10111_0010111	// 'AUIPC x23 786_432'
+	pc += 4
+
 
 	pc = 0
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 2
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 4
