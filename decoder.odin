@@ -106,6 +106,156 @@ C_SD :: struct {
 }
 
 
+NOP :: struct{
+}
+
+
+ADDI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le
+}
+
+
+SLLI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	shamt:	u64le,
+}
+
+
+BSETI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	idx:	u64le,
+}
+
+
+BCLRI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	idx:	u64le,
+}
+
+
+CLZ :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+CTZ :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+CPOP :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+SEXT_B :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+SEXT_H :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+BINVI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	idx:	u64le,
+}
+
+
+SLTI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le,
+}
+
+
+SLTIU :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	uimm:	u64le,
+}
+
+
+XORI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le,
+}
+
+
+SRLI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	shamt:	u64le,
+}
+
+
+ORC_B :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+SRAI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	shamt:	u64le,
+}
+
+
+BEXTI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	idx:	u64le,
+}
+
+
+RORI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	shamt:	u64le,
+}
+
+
+BREV8 :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+REV8 :: struct{
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+ORI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le,
+}
+
+
+ANDI :: struct{
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le,
+}
+
+
 ADD :: struct {
 	rd:		Reg64,
 	rs1:	Reg64,
@@ -424,7 +574,6 @@ IDec :: union #no_nil {
 	C_SW,
 	C_SD,
 
-
 //	C_NOP,
 //	C_ADDI,
 //	C_ADDIW,
@@ -520,29 +669,31 @@ IDec :: union #no_nil {
 //	FNMADD_S,
 //	FNMADD_D,
 //	JAL,
-//	NOP,
-//	ADDI,
-//	SLLI,
-//	BSETI,
-//	BCLRI,
-//	BINVI,
-//	CLZ,
-//	CTZ,
-//	CPOP,
-//	SEXT_B,
-//	SEXT_H,
-//	SLTI,
-//	SLTIU,
-//	XORI,
-//	SRLI,
-//	ORC_B,
-//	SRAI,
-//	BEXTI,
-//	RORI,
-//	BREV8,
-//	REV8,
-//	ORI,
-//	ANDI,
+
+	// OP-IMM
+	NOP,
+	ADDI,
+	SLLI,
+	BSETI,
+	BCLRI,
+	CLZ,
+	CTZ,
+	CPOP,
+	SEXT_B,
+	SEXT_H,
+	BINVI,
+	SLTI,
+	SLTIU,
+	XORI,
+	SRLI,
+	ORC_B,
+	SRAI,
+	BEXTI,
+	RORI,
+	BREV8,
+	REV8,
+	ORI,
+	ANDI,
 
 	// OP
 	ADD,
@@ -588,7 +739,6 @@ IDec :: union #no_nil {
 	MAXU,
 	CZERO_NEZ,
 	ANDN,
-
 
 //	FADD_S,
 //	FADD_D,
@@ -742,6 +892,44 @@ I32_Base :: bit_field u32le {
 	funct3:	u8		| 3,
 	pad2:	u16le	| 10,
 	funct7:	u8		| 7
+}
+
+
+sign_extend_to_i64le :: proc(bits: u64le, size: uint, shift: uint = 0) -> i64le {
+	if size == 0 {
+		panic("dword immediates cannot have less than 1 bit")
+	}
+	else if size > 64 {
+		panic("dword immediates cannot have more than 64 bits")
+	}
+	else if size + shift > 64 {
+		panic("dword immediates cannot be scaled to more than 64 bits")
+	}
+
+	// a size of 64 implies that `shift` is 0, meaning the whole bit range can
+	// just be given back reinterpreted as an `i64le`
+	//
+	// and if the `bits` 0, then it can also just be reinterpreted as an
+	// `i64le`
+	if size == 64 || bits == 0 {
+		return transmute(i64le) bits
+	}
+
+	// ignore the upper 64 - `size` bits in the range as they are irrelevant
+	bits := ~(~u64le(0) << size) & bits
+
+	// ==> if the most significant bit within the range is set, it is a
+	// negative number and the rest of the leading bits in the extended signed
+	// `i64le` need to be set
+	//
+	// ==> if the most significant bit within the range is not set, then no
+	// bits need to be set because numbers are zero-initialized in odin
+	if bits & (1 << (size - 1)) == 1 {
+		return transmute(i64le) ((~u64le(0) << size | bits) << shift)
+	}
+	else {
+		return transmute(i64le) (bits << shift)
+	}
 }
 
 
@@ -1193,6 +1381,232 @@ handle_i32opc_jal :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	I32_FMT_I_IMM12 :: bit_field u32le {
+		opc:		u8		| 7,
+		rd:			u8		| 5,
+		funct3:		u8		| 3,
+		rs1:		u8		| 5,
+		imm0to11:	u16le	| 12
+	}
+
+	I32_FMT_I_IMM6 :: bit_field u32le {
+		opc:		u8 | 7,
+		rd:			u8 | 5,
+		funct3:		u8 | 3,
+		rs1:		u8 | 5,
+		imm0to5:	u8 | 6,
+		funct6:		u8 | 6
+	}
+
+	I32_FMT_I_FUNCT6 :: bit_field u32le {
+		opc:		u8 | 7,
+		rd:			u8 | 5,
+		funct3:		u8 | 3,
+		rs1:		u8 | 5,
+		funct6_2:	u8 | 6,
+		funct6_1:	u8 | 6
+	}
+
+	I32_FMT_I_FUNCT7 :: bit_field u32le {
+		opc:	u8 | 7,
+		rd:		u8 | 5,
+		funct3:	u8 | 3,
+		rs1:	u8 | 5,
+		funct5:	u8 | 5,
+		funct7:	u8 | 7
+	}
+
+	switch ie.funct3 {
+	case 0x0:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		if ie.rd == 0 && ie.rs1 == 0 && ie.imm0to11 == 0 {
+			return NOP{}
+		}
+		else {
+			return ADDI{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1),
+				imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+			}
+		}
+
+	case 0x1:
+		ie := transmute(I32_FMT_I_IMM6) ie
+
+		switch ie.funct6 {
+		case 0x00:
+			return SLLI{
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				shamt	= u64le(ie.imm0to5)
+			}
+
+		case 0x0A:
+			return BSETI{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1),
+				idx	= u64le(ie.imm0to5)
+			}
+
+		case 0x12:
+			return BCLRI{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1),
+				idx	= u64le(ie.imm0to5)
+			}
+
+		case 0x18:
+			ie := transmute(I32_FMT_I_FUNCT7) ie
+
+			if ie.funct7 & 1 != 0 do return
+
+			switch ie.funct5 {
+			case 0x00:
+				return CLZ{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+
+			case 0x01:
+				return CTZ{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+
+			case 0x02:
+				return CPOP{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+
+			case 0x04:
+				return SEXT_B{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+
+			case 0x05:
+				return SEXT_H{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+			}
+			
+		case 0x1A:
+			return BINVI{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1),
+				idx	= u64le(ie.imm0to5)
+			}
+		}
+
+	case 0x2:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		return SLTI{
+			rd	= Reg64(ie.rd),
+			rs1	= Reg64(ie.rs1),
+			imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+		}
+
+	case 0x3:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		return SLTIU{
+			rd		= Reg64(ie.rd),
+			rs1		= Reg64(ie.rs1),
+			uimm	= u64le(sign_extend_to_i64le(u64le(ie.imm0to11), 12))
+		}
+
+	case 0x4:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		return XORI{
+			rd	= Reg64(ie.rd),
+			rs1	= Reg64(ie.rs1),
+			imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+		}
+
+	case 0x5:
+		ie := transmute(I32_FMT_I_IMM6) ie
+
+		switch ie.funct6 {
+		case 0x00:
+			return SRLI{
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				shamt	= u64le(ie.imm0to5)
+			}
+
+		case 0x0A:
+			ie := transmute(I32_FMT_I_FUNCT6) ie
+
+			if ie.funct6_2 != 0x07 do return
+
+			return ORC_B{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1)
+			}
+
+		case 0x10:
+			return SRAI{
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				shamt	= u64le(ie.imm0to5)
+			}
+
+		case 0x12:
+			return BEXTI{
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1),
+				idx	= u64le(ie.imm0to5)
+			}
+
+		case 0x18:
+			return RORI{
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				shamt	= u64le(ie.imm0to5)
+			}
+
+		case 0x1A:
+			ie := transmute(I32_FMT_I_FUNCT6) ie
+
+			switch ie.funct6_2 {
+			case 0x07:
+				return BREV8{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+
+			case 0x38:
+				return REV8{
+					rd	= Reg64(ie.rd),
+					rs1	= Reg64(ie.rs1)
+				}
+			}
+		}
+
+	case 0x6:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		return ORI{
+			rd	= Reg64(ie.rd),
+			rs1	= Reg64(ie.rs1),
+			imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+		}
+
+	case 0x7:
+		ie := transmute(I32_FMT_I_IMM12) ie
+
+		return ANDI{
+			rd	= Reg64(ie.rd),
+			rs1	= Reg64(ie.rs1),
+			imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+		}
+	}
+
 	return
 }
 
@@ -1688,23 +2102,37 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 
 main :: proc() {
 	memory:	[128]u8	= 0
-	pc:		u64le	= 0
+	pc:		u64le
 	w16:	^u16le
 	w32:	^u32le
 
 
-	w16		= cast(^u16le) &memory[0]
+	pc = 0
+
+	w16		= cast(^u16le) &memory[pc]
 	w16^	= 0b010_001_010_00_001_00					// 'C.LW x8 8(x9)'
+	pc += 2
 
-	w32		= cast(^u32le) &memory[2]
+	w32		= cast(^u32le) &memory[pc]
 	w32^	= 0b0000001_00011_00101_000_00011_0110011	// 'MUL x3 x5 x3'
+	pc += 4
 
-	w32		= cast(^u32le) &memory[6]
-	w32^	= 0b0100000_00011_00101_111_00011_0110011	// 'ANDN x3 x5 x3'
+	w32		= cast(^u32le) &memory[pc]
+	w32^	= 0b0100000_01011_00101_111_11111_0110011	// 'ANDN x31 x5 x11'
+	pc += 4
 
+	w32		= cast(^u32le) &memory[pc]
+	w32^	= 0b000011000000_10011_010_00111_0010011	// 'SLTI x7 x19 192'
+	pc += 4
+
+
+	pc = 0
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 2
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 4
