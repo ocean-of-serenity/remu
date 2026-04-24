@@ -106,6 +106,61 @@ C_SD :: struct {
 }
 
 
+BEQ :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+BNE :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+BLT :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+BGE :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+BLTU :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+BGEU :: struct {
+	rs1:	Reg64,
+	rs2:	Reg64,
+	imm:	i64le
+}
+
+
+JALR :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	imm:	i64le
+}
+
+
+JAL :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
 NOP :: struct{
 }
 
@@ -563,6 +618,12 @@ AUIPC :: struct {
 }
 
 
+LUI :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
 IDec :: union #no_nil {
 	ILLEGAL,
 
@@ -628,19 +689,25 @@ IDec :: union #no_nil {
 //	SD,
 //	FMADD_S,
 //	FMADD_D,
-//	BEQ,
-//	BNE,
-//	BLT,
-//	BGE,
-//	BLTU,
-//	BGEU,
+
+	// BRANCH
+	BEQ,
+	BNE,
+	BLT,
+	BGE,
+	BLTU,
+	BGEU,
+
 //	FLW,
 //	FLD,
 //	FSW,
 //	FSD,
 //	FMSUB_S,
 //	FMSUB_D,
-//	JALR,
+
+	// JALR
+	JALR,
+
 //	FNMSUB_S,
 //	FNMSUB_D,
 //	FENCE,
@@ -674,7 +741,9 @@ IDec :: union #no_nil {
 //	AMOCAS_Q,
 //	FNMADD_S,
 //	FNMADD_D,
-//	JAL,
+
+	// JAL
+	JAL,
 
 	// OP-IMM
 	NOP,
@@ -825,7 +894,9 @@ IDec :: union #no_nil {
 	// AUIPC
 	AUIPC,
 
-//	LUI,
+	// LUI
+	LUI,
+
 //	ADDIW,
 //	SLLIW,
 //	SLLI_UW,
@@ -1340,6 +1411,82 @@ handle_i32opc_madd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_branch :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	I32_FMT_B :: bit_field u32le {
+		opc:		u8	| 7,
+		imm11:		u8	| 1,
+		imm1to4:	u8	| 4,
+		funct3:		u8	| 3,
+		rs1:		u8	| 5,
+		rs2:		u8	| 5,
+		imm5to10:	u8	| 6,
+		imm12:		u8	| 1
+	}
+
+	ie := transmute(I32_FMT_B) ie
+
+	UIMM_DEC :: bit_field u32le {
+		imm0:		u8	| 1,
+		imm1to4:	u8	| 4,
+		imm5to10:	u8	| 6,
+		imm11:		u8	| 1,
+		imm12:		u8	| 1
+	}
+
+	imm := sign_extend_to_i64le(
+		u64le(UIMM_DEC{
+			imm0		= 0,
+			imm1to4		= ie.imm1to4,
+			imm5to10	= ie.imm5to10,
+			imm11		= ie.imm11,
+			imm12		= ie.imm12
+		}),
+		13
+	)
+
+	switch ie.funct3 {
+	case 0x0:
+		return BEQ{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+
+	case 0x1:
+		return BNE{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+
+	case 0x4:
+		return BLT{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+
+	case 0x5:
+		return BGE{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+
+	case 0x6:
+		return BLTU{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+
+	case 0x7:
+		return BGEU{
+			rs1	= Reg64(ie.rs1),
+			rs2	= Reg64(ie.rs2),
+			imm	= imm
+		}
+	}
+
 	return
 }
 
@@ -1360,7 +1507,23 @@ handle_i32opc_msub :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_jalr :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	I32_FMT_I :: bit_field u32le {
+		opc:		u8		| 7,
+		rd:			u8		| 5,
+		funct3:		u8		| 3,
+		rs1:		u8		| 5,
+		imm0to11:	u16le	| 12,
+	}
+
+	ie := transmute(I32_FMT_I) ie
+
+	if ie.funct3 != 0 do return
+
+	return JALR{
+		rd	= Reg64(ie.rd),
+		rs1	= Reg64(ie.rs1),
+		imm	= sign_extend_to_i64le(u64le(ie.imm0to11), 12)
+	}
 }
 
 
@@ -1385,7 +1548,38 @@ handle_i32opc_nmadd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_jal :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	I32_FMT_J :: bit_field u32le {
+		opc:		u8		| 7,
+		rd:			u8		| 5,
+		imm12to19:	u8		| 8,
+		imm11:		u8		| 1,
+		imm1to10:	u16le	| 10,
+		imm20:		u8		| 1
+	}
+
+	ie := transmute(I32_FMT_J) ie
+
+	UIMM_DEC :: bit_field u32le {
+		imm0:		u8		| 1,
+		imm1to10:	u16le	| 10,
+		imm11:		u8		| 1,
+		imm12to19:	u8		| 8,
+		imm20:		u8		| 1
+	}
+
+	return JAL{
+		rd	= Reg64(ie.rd),
+		imm	= sign_extend_to_i64le(
+			u64le(UIMM_DEC{
+				imm0		= 0,
+				imm1to10	= ie.imm1to10,
+				imm11		= ie.imm11,
+				imm12to19	= ie.imm12to19,
+				imm20		= ie.imm20
+			}),
+			21
+		)
+	}
 }
 
 
@@ -2001,7 +2195,29 @@ handle_i32opc_auipc :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_lui :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	I32_FMT_U :: bit_field u32le {
+		opc:		u8		| 7,
+		rd:			u8		| 5,
+		uimm12to31:	u32le	| 20
+	}
+
+	ie := transmute(I32_FMT_U) ie
+
+	UIMM_DEC :: bit_field u32le {
+		uimm0to11:	u16le | 12,
+		uimm12to31:	u32le | 20
+	}
+
+	return LUI{
+		rd	= Reg64(ie.rd),
+		imm	= sign_extend_to_i64le(
+			u64le(UIMM_DEC{
+				uimm0to11	= 0,
+				uimm12to31	= ie.uimm12to31
+			}),
+			32
+		)
+	}
 }
 
 
@@ -2028,7 +2244,6 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 
 
 	type := IType(mem[0] & 0b11)
-	fmt.println(type)
 
 
 	switch type {
@@ -2133,42 +2348,101 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 
 main :: proc() {
 	memory:	[128]u8	= 0
-	pc:		u64le
+	maxpc:	u64le	= 0
+	pc:		u64le	= 0
 	w16:	^u16le
 	w32:	^u32le
 
 
-	pc = 0
+	fmt.println("encoding c.lw x8 8(x9)")
+	w16		= cast(^u16le) &memory[maxpc]
+	w16^	= 0b010_001_010_00_001_00
+	maxpc += 2
 
-	w16		= cast(^u16le) &memory[pc]
-	w16^	= 0b010_001_010_00_001_00					// 'C.LW x8 8(x9)'
-	pc += 2
+	fmt.println("encoding mul x3 x5 x3")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b0000001_00011_00101_000_00011_0110011
+	maxpc += 4
 
-	w32		= cast(^u32le) &memory[pc]
-	w32^	= 0b0000001_00011_00101_000_00011_0110011	// 'MUL x3 x5 x3'
-	pc += 4
+	fmt.println("encoding andn x31 x5 x11")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b0100000_01011_00101_111_11111_0110011
+	maxpc += 4
 
-	w32		= cast(^u32le) &memory[pc]
-	w32^	= 0b0100000_01011_00101_111_11111_0110011	// 'ANDN x31 x5 x11'
-	pc += 4
+	fmt.println("encoding slti x7 x19 192")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b000011000000_10011_010_00111_0010011
+	maxpc += 4
 
-	w32		= cast(^u32le) &memory[pc]
-	w32^	= 0b000011000000_10011_010_00111_0010011	// 'SLTI x7 x19 192'
-	pc += 4
+	fmt.println("encoding auipc x9 -2144337920")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b1000_0000_0011_0000_0000_01001_0010111
+	maxpc += 4
 
-	w32		= cast(^u32le) &memory[pc]
-	w32^	= 0b1000_0000_0011_0000_0000_01001_0010111	// 'AUIPC x9 -2_144_337_920'
-	pc += 4
+	fmt.println("encoding auipc x32 786432")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b0000_0000_0000_1100_0000_10111_0010111
+	maxpc += 4
 
-	w32		= cast(^u32le) &memory[pc]
-	w32^	= 0b0000_0000_0000_1100_0000_10111_0010111	// 'AUIPC x23 786_432'
-	pc += 4
+	fmt.println("encoding lui x18 -1086574592")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b1011_1111_0011_1100_0011_10010_0110111
+	maxpc += 4
 
+	fmt.println("encoding lui x30 12779520")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b0000_0000_1100_0011_0000_11110_0110111
+	maxpc += 4
 
-	pc = 0
+	fmt.println("encoding jal x1 -429978")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b1_0000110011_0_10010111_00001_1101111
+	maxpc += 4
+
+	fmt.println("encoding jal x1 3206")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b0_1001000011_1_00000000_00001_1101111
+	maxpc += 4
+
+	fmt.println("encoding jalr x1 -1622(x16)")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b100110101010_10000_000_00001_1100111
+	maxpc += 4
+
+	fmt.println("encoding jalr x1 1166(x17)")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b010010001110_10001_000_00001_1100111
+	maxpc += 4
+
+	fmt.println("encoding bge x27 x28 -328")
+	w32		= cast(^u32le) &memory[maxpc]
+	w32^	= 0b1_110101_11100_11011_101_1100_1_1100011
+	maxpc += 4
+
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 2
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
+
+	fmt.println(decode_instruction(memory[pc:pc + 4]))
+	pc += 4
 
 	fmt.println(decode_instruction(memory[pc:pc + 4]))
 	pc += 4
