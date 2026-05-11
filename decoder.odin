@@ -22,6 +22,9 @@ Reg64 :: enum {
 ILLEGAL :: struct {
 }
 
+/*
+ * Compressed Opcode 00 Instructions
+ */	
 
 C_ADDI4SPN :: struct {
 	rd:		Reg64,
@@ -106,6 +109,10 @@ C_SD :: struct {
 }
 
 
+/*
+ * BRANCH Opcode Instructions
+ */
+
 BEQ :: struct {
 	rs1:	Reg64,
 	rs2:	Reg64,
@@ -148,6 +155,10 @@ BGEU :: struct {
 }
 
 
+/*
+ * JALR Opcode Instructions
+ */
+
 JALR :: struct {
 	rd:		Reg64,
 	rs1:	Reg64,
@@ -155,11 +166,19 @@ JALR :: struct {
 }
 
 
+/*
+ * JAL Opcode Instructions
+ */
+
 JAL :: struct {
 	rd:		Reg64,
 	imm:	i64le
 }
 
+
+/*
+ * OP-IMM Opcode Instructions
+ */
 
 NOP :: struct{
 }
@@ -310,6 +329,10 @@ ANDI :: struct{
 	imm:	i64le,
 }
 
+
+/*
+ * OP Opcode Instructions
+ */
 
 ADD :: struct {
 	rd:		Reg64,
@@ -612,11 +635,477 @@ ANDN :: struct {
 }
 
 
+/*
+ * OP-FP Opcode Instructions
+ */
+
+FADD_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FADD_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FSUB_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FSUB_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FMUL_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FMUL_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FDIV_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FDIV_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rm:		u64le
+}
+
+
+FSGNJ_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FSGNJN_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FSGNJX_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FSGNJ_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FSGNJN_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FSGNJX_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMIN_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMAX_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMINM_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMAXM_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMIN_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMAX_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMINM_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FMAXM_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FCVT_S_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FROUND_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FROUNDNX_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_D_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FROUND_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FROUNDNX_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FSQRT_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FSQRT_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FLE_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLT_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FEQ_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLEQ_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLTQ_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLE_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLT_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FEQ_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLEQ_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FLTQ_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+FCVT_W_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_WU_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_L_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_LU_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_W_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_WU_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_L_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_LU_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVTMOD_W_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+}
+
+
+FCVT_S_W :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_S_WU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_S_L :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_S_LU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_D_W :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_D_WU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_D_L :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FCVT_D_LU :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rm:		u64le
+}
+
+
+FMV_X_W :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FCLASS_S :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FMV_X_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FCLASS_D :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FMV_W_X :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FLI_S :: struct {
+	rd:		Reg64,
+	uimm:	u64le
+}
+
+
+FMV_D_X :: struct {
+	rd:		Reg64,
+	rs1:	Reg64
+}
+
+
+FLI_D :: struct {
+	rd:		Reg64,
+	uimm:	u64le
+}
+
+
+/*
+ * AUIPC Opcode Instructions
+ */
+
 AUIPC :: struct {
 	rd:		Reg64,
 	imm:	i64le
 }
 
+
+/*
+ * LUI Opcode Instructions
+ */
 
 LUI :: struct {
 	rd:		Reg64,
@@ -815,71 +1304,73 @@ IDec :: union #no_nil {
 	CZERO_NEZ,
 	ANDN,
 
-//	FADD_S,
-//	FADD_D,
-//	FSUB_S,
-//	FSUB_D,
-//	FMUL_S,
-//	FMUL_D,
-//	FDIV_S,
-//	FDIV_D,
-//	FSGNJ_S,
-//	FSGNJN_S,
-//	FSGNJX_S,
-//	FSGNJ_D,
-//	FSGNJN_D,
-//	FSGNJX_D,
-//	FMIN_S,
-//	FMAX_S,
-//	FMINM_S,
-//	FMAXM_S,
-//	FMIN_D,
-//	FMAX_D,
-//	FMINM_D,
-//	FMAXM_D,
-//	FCVT_S_D,
-//	FROUND_S,
-//	FROUNDNX_S,
-//	FCVT_D_S,
-//	FROUND_D,
-//	FROUNDNX_D,
-//	FSQRT_S,
-//	FSQRT_D,
-//	FLE_S,
-//	FLT_S,
-//	FEQ_S,
-//	FLEQ_S,
-//	FLTQ_S,
-//	FLE_D,
-//	FLT_D,
-//	FEQ_D,
-//	FLEQ_D,
-//	FLTQ_D,
-//	FCVT_W_S,
-//	FCVT_WU_S,
-//	FCVT_L_S,
-//	FCVT_LU_S,
-//	FCVT_W_D,
-//	FCVT_WU_D,
-//	FCVT_L_D,
-//	FCVT_LU_D,
-//	FCVTMOD_W_D,
-//	FCVT_S_W,
-//	FCVT_S_WU,
-//	FCVT_S_L,
-//	FCVT_S_LU,
-//	FCVT_D_W,
-//	FCVT_D_WU,
-//	FCVT_D_L,
-//	FCVT_D_LU,
-//	FMV_X_W,
-//	FCLASS_S,
-//	FMV_X_D,
-//	FCLASS_D,
-//	FMV_W_X,
-//	FLI_S,
-//	FMV_D_X,
-//	FLI_D,
+	// OP-FP
+	FADD_S,
+	FADD_D,
+	FSUB_S,
+	FSUB_D,
+	FMUL_S,
+	FMUL_D,
+	FDIV_S,
+	FDIV_D,
+	FSGNJ_S,
+	FSGNJN_S,
+	FSGNJX_S,
+	FSGNJ_D,
+	FSGNJN_D,
+	FSGNJX_D,
+	FMIN_S,
+	FMAX_S,
+	FMINM_S,
+	FMAXM_S,
+	FMIN_D,
+	FMAX_D,
+	FMINM_D,
+	FMAXM_D,
+	FCVT_S_D,
+	FROUND_S,
+	FROUNDNX_S,
+	FCVT_D_S,
+	FROUND_D,
+	FROUNDNX_D,
+	FSQRT_S,
+	FSQRT_D,
+	FLE_S,
+	FLT_S,
+	FEQ_S,
+	FLEQ_S,
+	FLTQ_S,
+	FLE_D,
+	FLT_D,
+	FEQ_D,
+	FLEQ_D,
+	FLTQ_D,
+	FCVT_W_S,
+	FCVT_WU_S,
+	FCVT_L_S,
+	FCVT_LU_S,
+	FCVT_W_D,
+	FCVT_WU_D,
+	FCVT_L_D,
+	FCVT_LU_D,
+	FCVTMOD_W_D,
+	FCVT_S_W,
+	FCVT_S_WU,
+	FCVT_S_L,
+	FCVT_S_LU,
+	FCVT_D_W,
+	FCVT_D_WU,
+	FCVT_D_L,
+	FCVT_D_LU,
+	FMV_X_W,
+	FCLASS_S,
+	FMV_X_D,
+	FCLASS_D,
+	FMV_W_X,
+	FLI_S,
+	FMV_D_X,
+	FLI_D,
+
 //	ECALL,
 //	EBREAK,
 //	WRS_NTO,
@@ -2158,6 +2649,529 @@ handle_i32opc_op :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	I32_FMT_R :: bit_field u32le {
+		opc:	u8 | 7,
+		rd:		u8 | 5,
+		funct3:	u8 | 3,
+		rs1:	u8 | 5,
+		rs2:	u8 | 5,
+		funct7:	u8 | 7
+	}
+
+	ie := transmute(I32_FMT_R) ie
+
+	switch ie.funct7 {
+	case 0x00:
+		return FADD_S {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x01:
+		return FADD_D {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x04:
+		return FSUB_S {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x05:
+		return FSUB_D {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x08:
+		return FMUL_S {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x09:
+		return FMUL_D {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x0B:
+		return FDIV_S {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x0C:
+		return FDIV_D {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rs2	= Reg64(ie.rs2 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x10:
+		switch ie.funct3 {
+		case 0x0:
+			return FSGNJ_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x1:
+			return FSGNJN_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x2:
+			return FSGNJX_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+		}
+
+	case 0x11:
+		switch ie.funct3 {
+		case 0x0:
+			return FSGNJ_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x1:
+			return FSGNJN_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x2:
+			return FSGNJX_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+		}
+
+	case 0x14:
+		switch ie.funct3 {
+		case 0x0:
+			return FMIN_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x1:
+			return FMAX_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x2:
+			return FMINM_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x3:
+			return FMAXM_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+		}
+
+	case 0x15:
+		switch ie.funct3 {
+		case 0x0:
+			return FMIN_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x1:
+			return FMAX_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x2:
+			return FMINM_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+
+		case 0x3:
+			return FMAXM_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs2 + 32),
+			}
+		}
+
+	case 0x20:
+		switch ie.rs2 {
+		case 0x01:
+			return FCVT_S_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x04:
+			return FROUND_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x05:
+			return FROUNDNX_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+		}
+
+	case 0x21:
+		switch ie.rs2 {
+		case 0x00:
+			return FCVT_D_S {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x04:
+			return FROUND_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x05:
+			return FROUNDNX_D {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+		}
+
+	case 0x2B:
+		return FSQRT_S {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x2C:
+		return FSQRT_D {
+			rd	= Reg64(ie.rd + 32),
+			rs1	= Reg64(ie.rs1 + 32),
+			rm	= u64le(ie.funct3)
+		}
+
+	case 0x50:
+		switch ie.funct3 {
+		case 0x0:
+			return FLE_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x1:
+			return FLT_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x2:
+			return FEQ_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x4:
+			return FLEQ_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x5:
+			return FLTQ_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+		}
+
+	case 0x51:
+		switch ie.funct3 {
+		case 0x0:
+			return FLE_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x1:
+			return FLT_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x2:
+			return FEQ_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x4:
+			return FLEQ_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x5:
+			return FLTQ_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rs2	= Reg64(ie.rs1 + 32)
+			}
+		}
+
+	case 0x60:
+		switch ie.rs2 {
+		case 0x00:
+			return FCVT_W_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x01:
+			return FCVT_WU_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x02:
+			return FCVT_L_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x03:
+			return FCVT_LU_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		}
+
+	case 0x61:
+		switch ie.rs2 {
+		case 0x00:
+			return FCVT_W_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x01:
+			return FCVT_WU_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x02:
+			return FCVT_L_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x03:
+			return FCVT_LU_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x08:
+			if ie.funct3 != 0x1 do return
+
+			return FCVTMOD_W_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32)
+			}
+		}
+
+	case 0x68:
+		switch ie.rs2 {
+		case 0x00:
+			return FCVT_S_W {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x01:
+			return FCVT_S_WU {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x02:
+			return FCVT_S_L {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x03:
+			return FCVT_S_LU {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+		}
+
+	case 0x69:
+		switch ie.rs2 {
+		case 0x00:
+			return FCVT_D_W {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+		case 0x01:
+			return FCVT_D_WU {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x02:
+			return FCVT_D_L {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+
+
+		case 0x03:
+			return FCVT_D_LU {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1),
+				rm	= u64le(ie.funct3)
+			}
+		}
+
+	case 0x70:
+		switch ie.funct3 {
+		case 0x0:
+			return FMV_X_W {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32)
+			}
+
+		case 0x1:
+			return FCLASS_S {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32)
+			}
+		}
+
+	case 0x71:
+		switch ie.funct3 {
+		case 0x0:
+			return FMV_X_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32)
+			}
+		case 0x1:
+			return FCLASS_D {
+				rd	= Reg64(ie.rd),
+				rs1	= Reg64(ie.rs1 + 32)
+			}
+		}
+
+	case 0x78:
+		switch ie.rs2 {
+		case 0x00:
+			return FMV_W_X {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1)
+			}
+		case 0x01:
+			return FLI_S {
+				rd		= Reg64(ie.rd + 32),
+				uimm	= u64le(ie.rs1)
+			}
+		}
+
+	case 0x79:
+		switch ie.rs2 {
+		case 0x00:
+			return FMV_D_X {
+				rd	= Reg64(ie.rd + 32),
+				rs1	= Reg64(ie.rs1)
+			}
+		case 0x01:
+			return FLI_D {
+				rd		= Reg64(ie.rd + 32),
+				uimm	= u64le(ie.rs1)
+			}
+		}
+	}
+
 	return
 }
 
