@@ -22,6 +22,7 @@ Reg64 :: enum {
 ILLEGAL :: struct {
 }
 
+
 /*
  * Compressed Opcode 00 Instructions
  */	
@@ -106,6 +107,151 @@ C_SD :: struct {
 	rs1:	Reg64,
 	rs2:	Reg64,
 	uimm:	u64le
+}
+
+
+/*
+ * Compressed Opcode 00 Instructions
+ */	
+
+C_NOP :: struct {
+}
+
+
+C_ADDI :: struct {
+	rd_rs1:	Reg64,
+	imm:	i64le
+}
+
+
+C_ADDIW :: struct {
+	rd_rs1:	Reg64,
+	imm:	i64le
+}
+
+
+C_LI :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
+C_ADDI16SP :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
+C_LUI :: struct {
+	rd:		Reg64,
+	imm:	i64le
+}
+
+
+C_SRLI :: struct {
+	rd_rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_SRAI :: struct {
+	rd_rs1:	Reg64,
+	uimm:	u64le
+}
+
+
+C_ANDI :: struct {
+	rd_rs1:	Reg64,
+	imm:	i64le
+}
+
+
+C_SUB :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_XOR :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_OR :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_AND :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_SUBW :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_ADDW :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_MUL :: struct {
+	rd_rs1:	Reg64,
+	rs2:	Reg64
+}
+
+
+C_ZEXT_B :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_SEXT_B :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_ZEXT_H :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_SEXT_H :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_ZEXT_W :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_NOT :: struct {
+	rd_rs1:	Reg64
+}
+
+
+C_J :: struct {
+	imm: i64le
+}
+
+
+C_BEQZ :: struct {
+	rs1: Reg64,
+	imm: i64le
+}
+
+
+C_BNEZ :: struct {
+	rs1: Reg64,
+	imm: i64le
 }
 
 
@@ -1130,31 +1276,34 @@ IDec :: union #no_nil {
 	C_SW,
 	C_SD,
 
-//	C_NOP,
-//	C_ADDI,
-//	C_ADDIW,
-//	C_LI,
-//	C_ADDI16SP,
-//	C_LUI,
-//	C_SRLI,
-//	C_SRAI,
-//	C_ANDI,
-//	C_SUB,
-//	C_XOR,
-//	C_OR,
-//	C_AND,
-//	C_SUBW,
-//	C_ADDW,
-//	C_MUL,
-//	C_ZEXT_B,
-//	C_SEXT_B,
-//	C_ZEXT_H,
-//	C_SEXT_H,
-//	C_ZEXT_W,
-//	C_NOT,
-//	C_J,
-//	C_BEQZ,
-//	C_BNEZ,
+	// Q1
+	C_NOP,
+	C_ADDI,
+	C_ADDIW,
+	C_LI,
+	C_ADDI16SP,
+	C_LUI,
+	C_SRLI,
+	C_SRAI,
+	C_ANDI,
+	C_SUB,
+	C_XOR,
+	C_OR,
+	C_AND,
+	C_SUBW,
+	C_ADDW,
+	C_MUL,
+	C_ZEXT_B,
+	C_SEXT_B,
+	C_ZEXT_H,
+	C_SEXT_H,
+	C_ZEXT_W,
+	C_NOT,
+	C_J,
+	C_BEQZ,
+	C_BNEZ,
+
+	// Q2
 //	C_SLLI,
 //	C_FLDSP,
 //	C_LDSP,
@@ -1166,16 +1315,22 @@ IDec :: union #no_nil {
 //	C_FSDSP,
 //	C_SWSP,
 //	C_SDSP,
+
+	// LOAD
 //	LB,
 //	LH,
 //	LW,
 //	LD,
 //	LBU,
 //	LHU,
+
+	// STORE
 //	SB,
 //	SH,
 //	SW,
 //	SD,
+
+	// MADD
 //	FMADD_S,
 //	FMADD_D,
 
@@ -1187,22 +1342,32 @@ IDec :: union #no_nil {
 	BLTU,
 	BGEU,
 
+	// LOAD-FP
 //	FLW,
 //	FLD,
+
+	// STORE-FP
 //	FSW,
 //	FSD,
+
+	// MSUB
 //	FMSUB_S,
 //	FMSUB_D,
 
 	// JALR
 	JALR,
 
+	// NMSUB
 //	FNMSUB_S,
 //	FNMSUB_D,
+
+	// MISC-MEM
 //	FENCE,
 //	FENCE_TSO,
 //	PAUSE,
 //	FENCE_I,
+
+	// AMO
 //	AMOADD_W,
 //	AMOSWAP_W,
 //	LR_W,
@@ -1228,6 +1393,8 @@ IDec :: union #no_nil {
 //	AMOMINU_D,
 //	AMOMAXU_D,
 //	AMOCAS_Q,
+
+	// NMADD
 //	FNMADD_S,
 //	FNMADD_D,
 
@@ -1371,6 +1538,7 @@ IDec :: union #no_nil {
 	FMV_D_X,
 	FLI_D,
 
+	// SYSTEM
 //	ECALL,
 //	EBREAK,
 //	WRS_NTO,
@@ -1388,6 +1556,7 @@ IDec :: union #no_nil {
 	// LUI
 	LUI,
 
+	// OP-IMM-32
 //	ADDIW,
 //	SLLIW,
 //	SLLI_UW,
@@ -1397,6 +1566,8 @@ IDec :: union #no_nil {
 //	SRLIW,
 //	SRAIW,
 //	RORIW,
+
+	// OP-32
 //	ADDW,
 //	MULW,
 //	ADD_UW,
@@ -1521,7 +1692,7 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 		if	ie.rd_r		== 0 || ie.uimm2		== 0 ||
 			ie.uimm3	== 0 || ie.uimm6to9		== 0 || ie.uimm4to5 == 0 {
-			return
+			return // ILLEGAL{}
 		}
 
 		UIMM_DEC :: bit_field u16le {
@@ -1767,7 +1938,7 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			ie := transmute(C_SH_ENC) ie
 
-			if ie.funct1 == 1 do return
+			if ie.funct1 == 1 do return // ILLEGAL{}
 
 			UIMM_DEC :: bit_field u8 {
 				uimm0:	u8 | 1,
@@ -1872,32 +2043,506 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	switch ie.funct3 {
+	case 0x0:
+		C_ADDI_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm0to4:	u8 | 5,
+			rd_rs1:		u8 | 5,
+			imm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_ADDI_ENC) ie
+
+		if ie.rd_rs1 == 0 {
+			return C_NOP{}
+		}
+		else if ie.imm0to4 == 0 && ie.imm5 == 0 {
+			return
+			// return HINT{} TODO handle hints
+		}
+
+		UIMM_DEC :: bit_field u8 {
+			imm0to4:	u8 | 5,
+			imm5:		u8 | 1
+		}
+
+		return C_ADDI{
+			rd_rs1	= Reg64(ie.rd_rs1),
+			imm		= sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0to4	= ie.imm0to4,
+					imm5	= ie.imm5
+				}),
+				6
+			)
+		}
+
+	case 0x1:
+		C_ADDIW_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm0to4:	u8 | 5,
+			rd_rs1:		u8 | 5,
+			imm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_ADDIW_ENC) ie
+
+		UIMM_DEC :: bit_field u8 {
+			imm0to4:	u8 | 5,
+			imm5:		u8 | 1
+		}
+
+		return C_ADDIW{
+			rd_rs1	= Reg64(ie.rd_rs1),
+			imm		= sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0to4	= ie.imm0to4,
+					imm5	= ie.imm5
+				}),
+				6
+			)
+		}
+
+	case 0x2:
+		C_LI_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm0to4:	u8 | 5,
+			rd:			u8 | 5,
+			imm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_LI_ENC) ie
+
+		if ie.rd == 0 {
+			return
+			// return HINT{} TODO handle hints
+		}
+
+		UIMM_DEC :: bit_field u8 {
+			imm0to4:	u8 | 5,
+			imm5:		u8 | 1
+		}
+
+		return C_LI{
+			rd	= Reg64(ie.rd),
+			imm	= sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0to4	= ie.imm0to4,
+					imm5	= ie.imm5
+				}),
+				6
+			)
+		}
+
+	case 0x3:
+		I16_Base_Rd :: bit_field u16le {
+			opc:		u8 | 2,
+			pad1:		u8 | 5,
+			rd:			u8 | 5,
+			pad2:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(I16_Base_Rd) ie
+
+		if ie.pad1 == 0 && ie.pad2 == 0 {
+			return // ILLEGAL{}
+		}
+
+		if ie.rd == 0 {
+			return
+			// return HINT{} TODO handle hints
+		}
+		else if ie.rd == 2 {
+			C_ADDI16SP_ENC :: bit_field u16le {
+				opc:		u8 | 2,
+				imm5:		u8 | 1,
+				imm7to8:	u8 | 2,
+				imm6:		u8 | 1,
+				imm4:		u8 | 1,
+				rd:			u8 | 5,
+				imm9:		u8 | 1,
+				funct3:		u8 | 3
+			}
+
+			ie := transmute(C_ADDI16SP_ENC) ie
+
+			UIMM_DEC :: bit_field u32le {
+				imm0to3:	u8		| 4,
+				imm4:		u8		| 1,
+				imm5:		u8		| 1,
+				imm6:		u8		| 1,
+				imm7to8:	u8		| 2,
+				imm9:		u8		| 1,
+				imm10to31:	u32le	| 22
+			}
+
+			return C_ADDI16SP{
+				rd	= Reg64(ie.rd),
+				imm	= sign_extend_to_i64le(
+					u64le(UIMM_DEC{
+						imm0to3		= 0,
+						imm4		= ie.imm4,
+						imm5		= ie.imm5,
+						imm6		= ie.imm6,
+						imm7to8		= ie.imm7to8,
+						imm9		= ie.imm9,
+						imm10to31	= 0
+					}),
+					10
+				)
+			}
+		}
+		else {
+			C_LUI_ENC :: bit_field u16le {
+				opc:		u8 | 2,
+				imm12to16:	u8 | 5,
+				rd:			u8 | 5,
+				imm17:		u8 | 1,
+				funct3:		u8 | 3
+			}
+
+			ie := transmute(C_LUI_ENC) ie
+
+			UIMM_DEC :: bit_field u32le {
+				imm0to11:	u16le	| 12,
+				imm12to16:	u8		| 5,
+				imm17:		u8		| 1,
+				imm18to31:	u16le	| 14
+			}
+
+			return C_LUI{
+				rd	= Reg64(ie.rd),
+				imm	= sign_extend_to_i64le(
+					u64le(UIMM_DEC{
+						imm0to11	= 0,
+						imm12to16	= ie.imm12to16,
+						imm17		= ie.imm17,
+						imm18to31	= 0
+					}),
+					18
+				)
+			}
+		}
+
+	case 0x4:
+		I16_Base_Funct2 :: bit_field u16le {
+			opc:		u8 | 2,
+			uimm0to4:	u8 | 5,
+			rd_rs1_r:	u8 | 3,
+			funct2:		u8 | 2,
+			uimm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(I16_Base_Funct2) ie
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to4:	u8	| 5,
+			uimm5:		u8	| 1,
+		}
+
+		switch ie.funct2 {
+		case 0x0:
+			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+				return
+				// return HINT{} TODO handle hints
+			}
+
+			return C_SRLI{
+				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				uimm	= u64le(UIMM_DEC{
+					uimm0to4	= ie.uimm0to4,
+					uimm5		= ie.uimm5
+				}),
+			}
+
+		case 0x1:
+			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+				return
+				// return HINT{} TODO handle hints
+			}
+
+			return C_SRAI{
+				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				uimm	= u64le(UIMM_DEC{
+					uimm0to4	= ie.uimm0to4,
+					uimm5		= ie.uimm5
+				}),
+			}
+
+		case 0x2:
+			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+				return
+				// return HINT{} TODO handle hints
+			}
+
+			return C_ANDI{
+				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				imm		= sign_extend_to_i64le(
+					u64le(UIMM_DEC{
+						uimm0to4	= ie.uimm0to4,
+						uimm5		= ie.uimm5
+					}),
+					6
+				)
+			}
+
+		case 0x3:
+			I16_Base_Funct1 :: bit_field u16le {
+				opc:		u8 | 2,
+				rs2_r:		u8 | 3,
+				funct2_2:	u8 | 2,
+				rd_rs1_r:	u8 | 3,
+				funct2_1:	u8 | 2,
+				funct1:		u8 | 1,
+				funct3:		u8 | 3
+			}
+
+			ie := transmute(I16_Base_Funct1) ie
+
+			switch ie.funct1 {
+			case 0x0:
+				switch ie.funct2_2 {
+				case 0x0:
+					return C_SUB{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x1:
+					return C_XOR{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x2:
+					return C_OR{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x3:
+					return C_AND{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				}
+
+			case 0x1:
+				switch ie.funct2_2 {
+				case 0x0:
+					return C_SUBW{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x1:
+					return C_ADDW{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x2:
+					return C_MUL{
+						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+					}
+
+				case 0x3:
+					switch ie.rs2_r {
+					case 0x0:
+						return C_ZEXT_B{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+
+					case 0x1:
+						return C_SEXT_B{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+
+					case 0x2:
+						return C_ZEXT_H{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+
+					case 0x3:
+						return C_SEXT_H{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+
+					case 0x4:
+						return C_ZEXT_W{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+
+					case 0x5:
+						return C_NOT{
+							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+						}
+					// case 0x6, 0x7 => ILLEGAL{}
+					}
+				}
+			}
+		}
+
+	case 0x5:
+		C_J_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm5:		u8 | 1,
+			imm1to3:	u8 | 3,
+			imm7:		u8 | 1,
+			imm6:		u8 | 1,
+			imm10:		u8 | 1,
+			imm8to9:	u8 | 2,
+			imm4:		u8 | 1,
+			imm11:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_J_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			imm0:		u8 | 1,
+			imm1to3:	u8 | 3,
+			imm4:		u8 | 1,
+			imm5:		u8 | 1,
+			imm6:		u8 | 1,
+			imm7:		u8 | 1,
+			imm8to9:	u8 | 2,
+			imm10:		u8 | 1,
+			imm11:		u8 | 1,
+		}
+
+		return C_J{
+			imm = sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0	= 0,
+					imm1to3	= ie.imm1to3,
+					imm4	= ie.imm4,
+					imm5	= ie.imm5,
+					imm6	= ie.imm6,
+					imm7	= ie.imm7,
+					imm8to9	= ie.imm8to9,
+					imm10	= ie.imm10,
+					imm11	= ie.imm11
+				}),
+				12
+			)
+		}
+
+	case 0x6:
+		C_BEQZ_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm5:		u8 | 1,
+			imm1to2:	u8 | 2,
+			imm6to7:	u8 | 2,
+			rs1_r:		u8 | 3,
+			imm3to4:	u8 | 2,
+			imm8:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_BEQZ_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			imm0:		u8 | 1,
+			imm1to2:	u8 | 2,
+			imm3to4:	u8 | 2,
+			imm5:		u8 | 1,
+			imm6to7:	u8 | 2,
+			imm8:		u8 | 1,
+			imm9to15:	u8 | 7
+		}
+
+		return C_BEQZ{
+			rs1	= Reg64(ie.rs1_r) + Reg64.x7,
+			imm = sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0		= 0,
+					imm1to2		= ie.imm1to2,
+					imm3to4		= ie.imm3to4,
+					imm5		= ie.imm5,
+					imm6to7		= ie.imm6to7,
+					imm8		= ie.imm8,
+					imm9to15	= 0
+				}),
+				9
+			)
+		}
+
+	case 0x7:
+		C_BNEZ_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			imm5:		u8 | 1,
+			imm1to2:	u8 | 2,
+			imm6to7:	u8 | 2,
+			rs1_r:		u8 | 3,
+			imm3to4:	u8 | 2,
+			imm8:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_BNEZ_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			imm0:		u8 | 1,
+			imm1to2:	u8 | 2,
+			imm3to4:	u8 | 2,
+			imm5:		u8 | 1,
+			imm6to7:	u8 | 2,
+			imm8:		u8 | 1,
+			imm9to15:	u8 | 7
+		}
+
+		return C_BNEZ{
+			rs1	= Reg64(ie.rs1_r) + Reg64.x7,
+			imm = sign_extend_to_i64le(
+				u64le(UIMM_DEC{
+					imm0		= 0,
+					imm1to2		= ie.imm1to2,
+					imm3to4		= ie.imm3to4,
+					imm5		= ie.imm5,
+					imm6to7		= ie.imm6to7,
+					imm8		= ie.imm8,
+					imm9to15	= 0
+				}),
+				9
+			)
+		}
+	}
+
+	return // ILLEGAL{}
 }
 
 
 handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_load :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_store :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_madd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -1978,22 +2623,22 @@ handle_i32opc_branch :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_load_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_store_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_msub :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -2008,7 +2653,7 @@ handle_i32opc_jalr :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 	ie := transmute(I32_FMT_I) ie
 
-	if ie.funct3 != 0 do return
+	if ie.funct3 != 0 do return // ILLEGAL{}
 
 	return JALR{
 		rd	= Reg64(ie.rd),
@@ -2019,22 +2664,22 @@ handle_i32opc_jalr :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_nmsub :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_misc_mem :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_amo :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_nmadd :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -2153,7 +2798,7 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		case 0x18:
 			ie := transmute(I32_FMT_I_FUNCT7) ie
 
-			if ie.funct7 & 1 != 0 do return
+			if ie.funct7 & 1 != 0 do return // ILLEGAL{}
 
 			switch ie.funct5 {
 			case 0x00:
@@ -2236,7 +2881,7 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		case 0x0A:
 			ie := transmute(I32_FMT_I_FUNCT6) ie
 
-			if ie.funct6_2 != 0x07 do return
+			if ie.funct6_2 != 0x07 do return // ILLEGAL{}
 
 			return ORC_B{
 				rd	= Reg64(ie.rd),
@@ -2301,7 +2946,7 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -2644,7 +3289,7 @@ handle_i32opc_op :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -3040,7 +3685,7 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 		case 0x08:
-			if ie.funct3 != 0x1 do return
+			if ie.funct3 != 0x1 do return // ILLEGAL{}
 
 			return FCVTMOD_W_D {
 				rd	= Reg64(ie.rd),
@@ -3172,12 +3817,12 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_system :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -3236,12 +3881,12 @@ handle_i32opc_lui :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_op_imm_32 :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
 handle_i32opc_op_32 :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
-	return
+	return // ILLEGAL{}
 }
 
 
@@ -3264,7 +3909,7 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 	case .I16_Q0:
 		ie := transmute(I16_Base) (cast(^u16le) raw_data(mem))^
 
-		if ie.opc == 0 && ie.funct3 == 0 && ie.pad == 0 do return
+		if ie.opc == 0 && ie.funct3 == 0 && ie.pad == 0 do return // ILLEGAL{}
 
 		return handle_i16opc_q0(ie)
 
@@ -3283,12 +3928,12 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 
 		if	ie.opc		== 0 && ie.funct7	== 0 &&
 			ie.funct3	== 0 && ie.pad1		== 0 && ie.pad2 == 0 {
-			return
+			return // ILLEGAL{}
 		}
 
 		i32opc := I32_Opcode(ie.opc)
 
-		if reflect.enum_value_has_name(i32opc) == false do return
+		if reflect.enum_value_has_name(i32opc) == false do return // ILLEGAL{}
 
 		switch i32opc {
 		case .LOAD:
@@ -3356,7 +4001,7 @@ decode_instruction :: proc(mem: []u8) -> (id: IDec = ILLEGAL{}) {
 		}
 	}
 
-	return
+	return // ILLEGAL{}
 }
 
 
