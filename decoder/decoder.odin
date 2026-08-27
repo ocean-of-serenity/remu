@@ -19,1574 +19,6 @@ Reg64 :: enum {
 }
 
 
-ILLEGAL :: struct {
-}
-
-
-/*
- * Compressed Opcode 00 Instructions
- */	
-
-C_ADDI4SPN :: struct {
-	rd:		Reg64,
-	uimm:	u64le
-}
-
-
-C_FLD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_LW :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_LD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_LBU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_LHU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_LH :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_SB :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	uimm:	u64le
-}
-
-
-C_SH :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	uimm:	u64le
-}
-
-
-C_FSD :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	uimm:	u64le
-}
-
-
-C_SW :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	uimm:	u64le
-}
-
-
-C_SD :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	uimm:	u64le
-}
-
-
-/*
- * Compressed Opcode 00 Instructions
- */	
-
-C_NOP :: struct {
-}
-
-
-C_ADDI :: struct {
-	rd_rs1:	Reg64,
-	imm:	i64le
-}
-
-
-C_ADDIW :: struct {
-	rd_rs1:	Reg64,
-	imm:	i64le
-}
-
-
-C_LI :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-C_ADDI16SP :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-C_LUI :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-C_SRLI :: struct {
-	rd_rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_SRAI :: struct {
-	rd_rs1:	Reg64,
-	uimm:	u64le
-}
-
-
-C_ANDI :: struct {
-	rd_rs1:	Reg64,
-	imm:	i64le
-}
-
-
-C_SUB :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_XOR :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_OR :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_AND :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_SUBW :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_ADDW :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_MUL :: struct {
-	rd_rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-C_ZEXT_B :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_SEXT_B :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_ZEXT_H :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_SEXT_H :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_ZEXT_W :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_NOT :: struct {
-	rd_rs1:	Reg64
-}
-
-
-C_J :: struct {
-	imm: i64le
-}
-
-
-C_BEQZ :: struct {
-	rs1: Reg64,
-	imm: i64le
-}
-
-
-C_BNEZ :: struct {
-	rs1: Reg64,
-	imm: i64le
-}
-
-
-/*
- * BRANCH Opcode Instructions
- */
-
-BEQ :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-BNE :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-BLT :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-BGE :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-BLTU :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-BGEU :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
-	imm:	i64le
-}
-
-
-/*
- * JALR Opcode Instructions
- */
-
-JALR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le
-}
-
-
-/*
- * JAL Opcode Instructions
- */
-
-JAL :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-/*
- * OP-IMM Opcode Instructions
- */
-
-NOP :: struct{
-}
-
-
-ADDI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le
-}
-
-
-SLLI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	shamt:	u64le,
-}
-
-
-BSETI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	idx:	u64le,
-}
-
-
-BCLRI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	idx:	u64le,
-}
-
-
-CLZ :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-CTZ :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-CPOP :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-SEXT_B :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-SEXT_H :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-BINVI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	idx:	u64le,
-}
-
-
-SLTI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le,
-}
-
-
-SLTIU :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	uimm:	u64le,
-}
-
-
-XORI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le,
-}
-
-
-SRLI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	shamt:	u64le,
-}
-
-
-ORC_B :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-SRAI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	shamt:	u64le,
-}
-
-
-BEXTI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	idx:	u64le,
-}
-
-
-RORI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	shamt:	u64le,
-}
-
-
-BREV8 :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-REV8 :: struct{
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-ORI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le,
-}
-
-
-ANDI :: struct{
-	rd:		Reg64,
-	rs1:	Reg64,
-	imm:	i64le,
-}
-
-
-/*
- * OP Opcode Instructions
- */
-
-ADD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MUL :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SUB :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SLL :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MULH :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-CLMUL :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-BSET :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-BCLR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-ROL :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-BINV :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SLT :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MULHSU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-CLMULR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SH1ADD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-XPERM_N :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SLTU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MULHU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-CLMULH :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-XOR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-DIV :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-PACK :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MIN :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SH2ADD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-XPERM_B :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-XNOR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SRL :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-DIVU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MINU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-CZERO_EQZ :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SRA :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-BEXT :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-ROR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-OR :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-REM :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MAX :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-SH3ADD :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-ORN :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-AND :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-REMU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-PACKH :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-MAXU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-CZERO_NEZ :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-ANDN :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-/*
- * OP-FP Opcode Instructions
- */
-
-FADD_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FADD_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FSUB_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FSUB_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FMUL_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FMUL_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FDIV_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FDIV_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
-	rm:		u64le
-}
-
-
-FSGNJ_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FSGNJN_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FSGNJX_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FSGNJ_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FSGNJN_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FSGNJX_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMIN_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMAX_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMINM_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMAXM_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMIN_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMAX_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMINM_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FMAXM_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FCVT_S_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FROUND_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FROUNDNX_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_D_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FROUND_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FROUNDNX_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FSQRT_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FSQRT_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FLE_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLT_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FEQ_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLEQ_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLTQ_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLE_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLT_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FEQ_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLEQ_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FLTQ_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-
-FCVT_W_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_WU_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_L_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_LU_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_W_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_WU_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_L_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_LU_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVTMOD_W_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-}
-
-
-FCVT_S_W :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_S_WU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_S_L :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_S_LU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_D_W :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_D_WU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_D_L :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FCVT_D_LU :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rm:		u64le
-}
-
-
-FMV_X_W :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FCLASS_S :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FMV_X_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FCLASS_D :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FMV_W_X :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FLI_S :: struct {
-	rd:		Reg64,
-	uimm:	u64le
-}
-
-
-FMV_D_X :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
-}
-
-
-FLI_D :: struct {
-	rd:		Reg64,
-	uimm:	u64le
-}
-
-
-/*
- * AUIPC Opcode Instructions
- */
-
-AUIPC :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-/*
- * LUI Opcode Instructions
- */
-
-LUI :: struct {
-	rd:		Reg64,
-	imm:	i64le
-}
-
-
-IDec :: union #no_nil {
-	ILLEGAL,
-
-	// Q0
-	C_ADDI4SPN,
-	C_FLD,
-	C_LW,
-	C_LD,
-	C_LBU,
-	C_LHU,
-	C_LH,
-	C_SB,
-	C_SH,
-	C_FSD,
-	C_SW,
-	C_SD,
-
-	// Q1
-	C_NOP,
-	C_ADDI,
-	C_ADDIW,
-	C_LI,
-	C_ADDI16SP,
-	C_LUI,
-	C_SRLI,
-	C_SRAI,
-	C_ANDI,
-	C_SUB,
-	C_XOR,
-	C_OR,
-	C_AND,
-	C_SUBW,
-	C_ADDW,
-	C_MUL,
-	C_ZEXT_B,
-	C_SEXT_B,
-	C_ZEXT_H,
-	C_SEXT_H,
-	C_ZEXT_W,
-	C_NOT,
-	C_J,
-	C_BEQZ,
-	C_BNEZ,
-
-	// Q2
-//	C_SLLI,
-//	C_FLDSP,
-//	C_LDSP,
-//	C_JR,
-//	C_MV,
-//	C_EBREAK,
-//	C_JALR,
-//	C_ADD,
-//	C_FSDSP,
-//	C_SWSP,
-//	C_SDSP,
-
-	// LOAD
-//	LB,
-//	LH,
-//	LW,
-//	LD,
-//	LBU,
-//	LHU,
-
-	// STORE
-//	SB,
-//	SH,
-//	SW,
-//	SD,
-
-	// MADD
-//	FMADD_S,
-//	FMADD_D,
-
-	// BRANCH
-	BEQ,
-	BNE,
-	BLT,
-	BGE,
-	BLTU,
-	BGEU,
-
-	// LOAD-FP
-//	FLW,
-//	FLD,
-
-	// STORE-FP
-//	FSW,
-//	FSD,
-
-	// MSUB
-//	FMSUB_S,
-//	FMSUB_D,
-
-	// JALR
-	JALR,
-
-	// NMSUB
-//	FNMSUB_S,
-//	FNMSUB_D,
-
-	// MISC-MEM
-//	FENCE,
-//	FENCE_TSO,
-//	PAUSE,
-//	FENCE_I,
-
-	// AMO
-//	AMOADD_W,
-//	AMOSWAP_W,
-//	LR_W,
-//	SC_W,
-//	AMOXOR_W,
-//	AMOCAS_W,
-//	AMOOR_W,
-//	AMOAND_W,
-//	AMOMIN_W,
-//	AMOMAX_W,
-//	AMOMINU_W,
-//	AMOMAXU_W,
-//	AMOADD_D,
-//	AMOSWAP_D,
-//	LR_D,
-//	SC_D,
-//	AMOXOR_D,
-//	AMOCAS_D,
-//	AMOOR_D,
-//	AMOAND_D,
-//	AMOMIN_D,
-//	AMOMAX_D,
-//	AMOMINU_D,
-//	AMOMAXU_D,
-//	AMOCAS_Q,
-
-	// NMADD
-//	FNMADD_S,
-//	FNMADD_D,
-
-	// JAL
-	JAL,
-
-	// OP-IMM
-	NOP,
-	ADDI,
-	SLLI,
-	BSETI,
-	BCLRI,
-	CLZ,
-	CTZ,
-	CPOP,
-	SEXT_B,
-	SEXT_H,
-	BINVI,
-	SLTI,
-	SLTIU,
-	XORI,
-	SRLI,
-	ORC_B,
-	SRAI,
-	BEXTI,
-	RORI,
-	BREV8,
-	REV8,
-	ORI,
-	ANDI,
-
-	// OP
-	ADD,
-	MUL,
-	SUB,
-	SLL,
-	MULH,
-	CLMUL,
-	BSET,
-	BCLR,
-	ROL,
-	BINV,
-	SLT,
-	MULHSU,
-	CLMULR,
-	SH1ADD,
-	XPERM_N,
-	SLTU,
-	MULHU,
-	CLMULH,
-	XOR,
-	DIV,
-	PACK,
-	MIN,
-	SH2ADD,
-	XPERM_B,
-	XNOR,
-	SRL,
-	DIVU,
-	MINU,
-	CZERO_EQZ,
-	SRA,
-	BEXT,
-	ROR,
-	OR,
-	REM,
-	MAX,
-	SH3ADD,
-	ORN,
-	AND,
-	REMU,
-	PACKH,
-	MAXU,
-	CZERO_NEZ,
-	ANDN,
-
-	// OP-FP
-	FADD_S,
-	FADD_D,
-	FSUB_S,
-	FSUB_D,
-	FMUL_S,
-	FMUL_D,
-	FDIV_S,
-	FDIV_D,
-	FSGNJ_S,
-	FSGNJN_S,
-	FSGNJX_S,
-	FSGNJ_D,
-	FSGNJN_D,
-	FSGNJX_D,
-	FMIN_S,
-	FMAX_S,
-	FMINM_S,
-	FMAXM_S,
-	FMIN_D,
-	FMAX_D,
-	FMINM_D,
-	FMAXM_D,
-	FCVT_S_D,
-	FROUND_S,
-	FROUNDNX_S,
-	FCVT_D_S,
-	FROUND_D,
-	FROUNDNX_D,
-	FSQRT_S,
-	FSQRT_D,
-	FLE_S,
-	FLT_S,
-	FEQ_S,
-	FLEQ_S,
-	FLTQ_S,
-	FLE_D,
-	FLT_D,
-	FEQ_D,
-	FLEQ_D,
-	FLTQ_D,
-	FCVT_W_S,
-	FCVT_WU_S,
-	FCVT_L_S,
-	FCVT_LU_S,
-	FCVT_W_D,
-	FCVT_WU_D,
-	FCVT_L_D,
-	FCVT_LU_D,
-	FCVTMOD_W_D,
-	FCVT_S_W,
-	FCVT_S_WU,
-	FCVT_S_L,
-	FCVT_S_LU,
-	FCVT_D_W,
-	FCVT_D_WU,
-	FCVT_D_L,
-	FCVT_D_LU,
-	FMV_X_W,
-	FCLASS_S,
-	FMV_X_D,
-	FCLASS_D,
-	FMV_W_X,
-	FLI_S,
-	FMV_D_X,
-	FLI_D,
-
-	// SYSTEM
-//	ECALL,
-//	EBREAK,
-//	WRS_NTO,
-//	WRS_STO,
-//	CSRRW,
-//	CSRRS,
-//	CSRRC,
-//	CSRRWI,
-//	CSRRSI,
-//	CSRRCI,
-
-	// AUIPC
-	AUIPC,
-
-	// LUI
-	LUI,
-
-	// OP-IMM-32
-//	ADDIW,
-//	SLLIW,
-//	SLLI_UW,
-//	CLZW,
-//	CTZW,
-//	CPOPW,
-//	SRLIW,
-//	SRAIW,
-//	RORIW,
-
-	// OP-32
-//	ADDW,
-//	MULW,
-//	ADD_UW,
-//	SUBW,
-//	SLLW,
-//	ROLW,
-//	SH1ADD_UW,
-//	DIVW,
-//	ZEXT_H,
-//	SH2ADD_UW,
-//	SRLW,
-//	DIVUW,
-//	SRAW,
-//	RORW,
-//	REMW,
-//	SH3ADD_UW,
-//	REMUW,
-}
-
 
 IType :: enum u8 {
 	I16_Q0	= 0b00,
@@ -2074,8 +506,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 
 		return C_ADDI{
-			rd_rs1	= Reg64(ie.rd_rs1),
-			imm		= sign_extend_to_i64le(
+			rd	= Reg64(ie.rd_rs1),
+			rs1	= Reg64(ie.rd_rs1),
+			imm	= sign_extend_to_i64le(
 				u64le(UIMM_DEC{
 					imm0to4	= ie.imm0to4,
 					imm5	= ie.imm5
@@ -2101,8 +534,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 
 		return C_ADDIW{
-			rd_rs1	= Reg64(ie.rd_rs1),
-			imm		= sign_extend_to_i64le(
+			rd	= Reg64(ie.rd_rs1),
+			rs1	= Reg64(ie.rd_rs1),
+			imm	= sign_extend_to_i64le(
 				u64le(UIMM_DEC{
 					imm0to4	= ie.imm0to4,
 					imm5	= ie.imm5
@@ -2259,7 +693,8 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 			return C_SRLI{
-				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				rd		= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				rs1		= Reg64(ie.rd_rs1_r) + Reg64.x7,
 				uimm	= u64le(UIMM_DEC{
 					uimm0to4	= ie.uimm0to4,
 					uimm5		= ie.uimm5
@@ -2273,7 +708,8 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 			return C_SRAI{
-				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				rd		= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				rs1		= Reg64(ie.rd_rs1_r) + Reg64.x7,
 				uimm	= u64le(UIMM_DEC{
 					uimm0to4	= ie.uimm0to4,
 					uimm5		= ie.uimm5
@@ -2287,8 +723,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 			return C_ANDI{
-				rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-				imm		= sign_extend_to_i64le(
+				rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+				imm	= sign_extend_to_i64le(
 					u64le(UIMM_DEC{
 						uimm0to4	= ie.uimm0to4,
 						uimm5		= ie.uimm5
@@ -2315,26 +752,30 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 				switch ie.funct2_2 {
 				case 0x0:
 					return C_SUB{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x1:
 					return C_XOR{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x2:
 					return C_OR{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x3:
 					return C_AND{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				}
@@ -2343,52 +784,61 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 				switch ie.funct2_2 {
 				case 0x0:
 					return C_SUBW{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x1:
 					return C_ADDW{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x2:
 					return C_MUL{
-						rd_rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
-						rs2		= Reg64(ie.rs2_r) + Reg64.x7
+						rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+						rs2	= Reg64(ie.rs2_r) + Reg64.x7
 					}
 
 				case 0x3:
 					switch ie.rs2_r {
 					case 0x0:
 						return C_ZEXT_B{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 
 					case 0x1:
 						return C_SEXT_B{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 
 					case 0x2:
 						return C_ZEXT_H{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 
 					case 0x3:
 						return C_SEXT_H{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 
 					case 0x4:
 						return C_ZEXT_W{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 
 					case 0x5:
 						return C_NOT{
-							rd_rs1 = Reg64(ie.rd_rs1_r) + Reg64.x7
+							rd	= Reg64(ie.rd_rs1_r) + Reg64.x7,
+							rs1	= Reg64(ie.rd_rs1_r) + Reg64.x7
 						}
 					// case 0x6, 0x7 => ILLEGAL{}
 					}
@@ -2527,6 +977,276 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
+	switch ie.funct3 {
+	case 0x0:
+		C_SLLI_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			uimm0to4:	u8 | 5,
+			rd_rs1:		u8 | 5,
+			uimm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_SLLI_ENC) ie
+
+		if ie.rd_rs1 == 0 || (ie.uimm0to4 == 0 && ie.uimm5 == 0) {
+			return
+			// HINT{} TODO handle hints
+		}
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to4:	u8 | 5,
+			uimm5:		u8 | 1
+		}
+
+		return C_SLLI{
+			rd		= Reg64(ie.rd_rs1),
+			rs1		= Reg64(ie.rd_rs1),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to4	= ie.uimm0to4,
+				uimm5		= ie.uimm5
+			})
+		}
+
+	case 0x1:
+		C_FLDSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			uimm6to8:	u8 | 3,
+			uimm3to4:	u8 | 2,
+			rd:			u8 | 5,
+			uimm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_FLDSP_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			uimm0to2:	u8 | 3,
+			uimm3to4:	u8 | 2,
+			uimm5:		u8 | 1,
+			uimm6to8:	u8 | 3,
+			uimm9to15:	u8 | 7
+		}
+
+		return C_FLDSP{
+			rd		= Reg64(ie.rd),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to4	= ie.uimm3to4,
+				uimm5		= ie.uimm5,
+				uimm6to8	= ie.uimm6to8,
+				uimm9to15	= 0
+			})
+		}
+
+	case 0x2:
+		C_LWSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			uimm6to7:	u8 | 2,
+			uimm2to4:	u8 | 3,
+			rd:			u8 | 5,
+			uimm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_LWSP_ENC) ie
+
+		if ie.rd == 0 {
+			return // ILLEGAL{}
+		}
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to1:	u8 | 2,
+			uimm2to4:	u8 | 3,
+			uimm5:		u8 | 1,
+			uimm6to7:	u8 | 2
+		}
+
+		return C_LWSP{
+			rd		= Reg64(ie.rd),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to1	= 0,
+				uimm2to4	= ie.uimm2to4,
+				uimm5		= ie.uimm5,
+				uimm6to7	= ie.uimm6to7
+			})
+		}
+
+	case 0x3:
+		C_LDSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			uimm6to8:	u8 | 3,
+			uimm3to4:	u8 | 2,
+			rd:			u8 | 5,
+			uimm5:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_LDSP_ENC) ie
+
+		if ie.rd == 0 {
+			return // ILLEGAL{}
+		}
+
+		UIMM_DEC :: bit_field u16le {
+			uimm0to2:	u8 | 3,
+			uimm3to4:	u8 | 2,
+			uimm5:		u8 | 1,
+			uimm6to8:	u8 | 3,
+			uimm9to15:	u8 | 7
+		}
+
+		return C_LDSP{
+			rd		= Reg64(ie.rd),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to4	= ie.uimm3to4,
+				uimm5		= ie.uimm5,
+				uimm6to8	= ie.uimm6to8,
+				uimm9to15	= 0
+			})
+		}
+
+	case 0x4:
+		I16_FMT_CR :: bit_field u16le {
+			opc:		u8 | 2,
+			rs2:		u8 | 5,
+			rd_rs1:		u8 | 5,
+			funct1:		u8 | 1,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(I16_FMT_CR) ie
+
+		switch ie.funct1 {
+		case 0x0:
+			if ie.rd_rs1 == 0 && ie.rs2 == 0 {
+				return
+				// HINT{} TODO handle hints
+			}
+			else if ie.rd_rs1 != 0 && ie.rs2 != 0 {
+				return C_MV{
+					rd	= Reg64(ie.rd_rs1),
+					rs1	= Reg64(ie.rd_rs1),
+					rs2	= Reg64(ie.rs2)
+				}
+			}
+			else if ie.rd_rs1 != 0 && ie.rs2 == 0 {
+				return C_JR{
+					rs1 = Reg64(ie.rd_rs1)
+				}
+			}
+			else {
+				return // ILLEGAL{}
+			}
+
+		case 0x1:
+			if ie.rd_rs1 == 0 && ie.rs2 == 0 {
+				return C_EBREAK{}
+			}
+			else if ie.rd_rs1 != 0 && ie.rs2 != 0 {
+				return C_ADD{
+					rd	= Reg64(ie.rd_rs1),
+					rs1	= Reg64(ie.rd_rs1),
+					rs2	= Reg64(ie.rs2)
+				}
+			}
+			else if ie.rd_rs1 != 0 && ie.rs2 == 0 {
+				return C_JALR {
+					rs1 = Reg64(ie.rd_rs1)
+				}
+			}
+			else {
+				return
+				// HINT{} TODO handle hints
+			}
+		}
+
+	case 0x5:
+		C_FSDSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs1:		u8 | 5,
+			uimm6to8:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_FSDSP_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			uimm0to2:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			uimm6to8:	u8 | 3,
+			uimm9to15:	u8 | 7
+		}
+
+		return C_FSDSP{
+			rs1		= Reg64(ie.rs1),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to5	= ie.uimm3to5,
+				uimm6to8	= ie.uimm6to8,
+				uimm9to15	= 0
+			})
+		}
+
+	case 0x6:
+		C_SWSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs1:		u8 | 5,
+			uimm6to7:	u8 | 2,
+			uimm2to5:	u8 | 4,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_SWSP_ENC) ie
+
+		UIMM_DEC :: bit_field u8 {
+			uimm0to1:	u8 | 2,
+			uimm2to5:	u8 | 4,
+			uimm6to7:	u8 | 2
+		}
+
+		return C_SWSP{
+			rs1		= Reg64(ie.rs1),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to1	= 0,
+				uimm2to5	= ie.uimm2to5,
+				uimm6to7	= ie.uimm6to7,
+			})
+		}
+
+	case 0x7:
+		C_SDSP_ENC :: bit_field u16le {
+			opc:		u8 | 2,
+			rs1:		u8 | 5,
+			uimm6to8:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			funct3:		u8 | 3
+		}
+
+		ie := transmute(C_SDSP_ENC) ie
+
+		UIMM_DEC :: bit_field u16le {
+			uimm0to2:	u8 | 3,
+			uimm3to5:	u8 | 3,
+			uimm6to8:	u8 | 3,
+			uimm9to15:	u8 | 7
+		}
+
+		return C_SDSP{
+			rs1		= Reg64(ie.rs1),
+			uimm	= u64le(UIMM_DEC{
+				uimm0to2	= 0,
+				uimm3to5	= ie.uimm3to5,
+				uimm6to8	= ie.uimm6to8,
+				uimm9to15	= 0
+			})
+		}
+
+
+	}
+
 	return // ILLEGAL{}
 }
 
@@ -2778,21 +1498,21 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 			return SLLI{
 				rd		= Reg64(ie.rd),
 				rs1		= Reg64(ie.rs1),
-				shamt	= u64le(ie.imm0to5)
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x0A:
 			return BSETI{
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1),
-				idx	= u64le(ie.imm0to5)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x12:
 			return BCLRI{
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1),
-				idx	= u64le(ie.imm0to5)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x18:
@@ -2834,9 +1554,9 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 			
 		case 0x1A:
 			return BINVI{
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1),
-				idx	= u64le(ie.imm0to5)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.imm0to5)
 			}
 		}
 
@@ -2875,7 +1595,7 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 			return SRLI{
 				rd		= Reg64(ie.rd),
 				rs1		= Reg64(ie.rs1),
-				shamt	= u64le(ie.imm0to5)
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x0A:
@@ -2892,21 +1612,21 @@ handle_i32opc_op_imm :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 			return SRAI{
 				rd		= Reg64(ie.rd),
 				rs1		= Reg64(ie.rs1),
-				shamt	= u64le(ie.imm0to5)
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x12:
 			return BEXTI{
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1),
-				idx	= u64le(ie.imm0to5)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x18:
 			return RORI{
 				rd		= Reg64(ie.rd),
 				rs1		= Reg64(ie.rs1),
-				shamt	= u64le(ie.imm0to5)
+				uimm	= u64le(ie.imm0to5)
 			}
 
 		case 0x1A:
@@ -3308,66 +2028,66 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 	switch ie.funct7 {
 	case 0x00:
 		return FADD_S {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x01:
 		return FADD_D {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x04:
 		return FSUB_S {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x05:
 		return FSUB_D {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x08:
 		return FMUL_S {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x09:
 		return FMUL_D {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x0B:
 		return FDIV_S {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x0C:
 		return FDIV_D {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rs2	= Reg64(ie.rs2 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			rs2		= Reg64(ie.rs2 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x10:
@@ -3484,23 +2204,23 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x01:
 			return FCVT_S_D {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x04:
 			return FROUND_S {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x05:
 			return FROUNDNX_S {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 		}
 
@@ -3508,38 +2228,38 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x00:
 			return FCVT_D_S {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x04:
 			return FROUND_D {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x05:
 			return FROUNDNX_D {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 		}
 
 	case 0x2B:
 		return FSQRT_S {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x2C:
 		return FSQRT_D {
-			rd	= Reg64(ie.rd + 32),
-			rs1	= Reg64(ie.rs1 + 32),
-			rm	= u64le(ie.funct3)
+			rd		= Reg64(ie.rd + 32),
+			rs1		= Reg64(ie.rs1 + 32),
+			uimm	= u64le(ie.funct3)
 		}
 
 	case 0x50:
@@ -3622,32 +2342,32 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x00:
 			return FCVT_W_S {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x01:
 			return FCVT_WU_S {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x02:
 			return FCVT_L_S {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x03:
 			return FCVT_LU_S {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 
@@ -3657,31 +2377,31 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x00:
 			return FCVT_W_D {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x01:
 			return FCVT_WU_D {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x02:
 			return FCVT_L_D {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x03:
 			return FCVT_LU_D {
-				rd	= Reg64(ie.rd),
-				rs1	= Reg64(ie.rs1 + 32),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1 + 32),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x08:
@@ -3697,32 +2417,32 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x00:
 			return FCVT_S_W {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x01:
 			return FCVT_S_WU {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x02:
 			return FCVT_S_L {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x03:
 			return FCVT_S_LU {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 		}
 
@@ -3730,32 +2450,32 @@ handle_i32opc_op_fp :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 		switch ie.rs2 {
 		case 0x00:
 			return FCVT_D_W {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 		case 0x01:
 			return FCVT_D_WU {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x02:
 			return FCVT_D_L {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 
 
 		case 0x03:
 			return FCVT_D_LU {
-				rd	= Reg64(ie.rd + 32),
-				rs1	= Reg64(ie.rs1),
-				rm	= u64le(ie.funct3)
+				rd		= Reg64(ie.rd + 32),
+				rs1		= Reg64(ie.rs1),
+				uimm	= u64le(ie.funct3)
 			}
 		}
 
