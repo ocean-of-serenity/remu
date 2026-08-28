@@ -1394,6 +1394,242 @@ handle_i32opc_misc_mem :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
 
 
 handle_i32opc_amo :: proc(ie: I32_Base) -> (id: IDec = ILLEGAL{}) {
+	I32_FMT_R :: bit_field u32le {
+		opc:		u8	| 7,
+		rd:			u8	| 5,
+		funct3:		u8	| 3,
+		rs1:		u8	| 5,
+		rs2:		u8	| 5,
+		rl:			u8	| 1,
+		aq:			u8	| 1,
+		funct5:		u8	| 5
+	}
+
+	ie := transmute(I32_FMT_R) ie
+
+	rl_aq := Flagbits_Rl_Aq{}
+	if ie.rl == 1 {
+		rl_aq += {.rl}
+	}
+	if ie.aq == 1 {
+		rl_aq += {.aq}
+	}
+
+	switch ie.funct3 {
+	case 0x2:
+		switch ie.funct5 {
+		case 0x00:
+			return AMOADD_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x01:
+			return AMOSWAP_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x02:
+			if ie.rs2 != 0 {
+				return // ILLEGAL{}
+			}
+
+			return LR_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rl_aq	= rl_aq
+			}
+
+		case 0x03:
+			return SC_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x04:
+			return AMOXOR_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x05:
+			return AMOCAS_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x08:
+			return AMOOR_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x0C:
+			return AMOAND_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x10:
+			return AMOMIN_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x14:
+			return AMOMAX_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x18:
+			return AMOMINU_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x1C:
+			return AMOMAXU_W {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+		}
+
+	case 0x3:
+		switch ie.funct5 {
+		case 0x00:
+			return AMOADD_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x01:
+			return AMOSWAP_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x02:
+			if ie.rs2 != 0 {
+				return // ILLEGAL{}
+			}
+
+			return LR_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rl_aq	= rl_aq
+			}
+
+		case 0x03:
+			return SC_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x04:
+			return AMOXOR_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x05:
+			return AMOCAS_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x08:
+			return AMOOR_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x0C:
+			return AMOAND_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x10:
+			return AMOMIN_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x14:
+			return AMOMAX_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x18:
+			return AMOMINU_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+
+		case 0x1C:
+			return AMOMAXU_D {
+				rd		= Reg64(ie.rd),
+				rs1		= Reg64(ie.rs1),
+				rs2		= Reg64(ie.rs2),
+				rl_aq	= rl_aq
+			}
+		}
+
+
+	case 0x4:
+		return AMOCAS_Q{
+			rd		= Reg64(ie.rd),
+			rs1		= Reg64(ie.rs1),
+			rs2		= Reg64(ie.rs2),
+			rl_aq	= rl_aq
+		}
+	}
+
 	return // ILLEGAL{}
 }
 

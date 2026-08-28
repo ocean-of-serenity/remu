@@ -112,31 +112,31 @@ IDec :: union #no_nil {
 //	FENCE_I,
 
 	// AMO
-//	AMOADD_W,
-//	AMOSWAP_W,
-//	LR_W,
-//	SC_W,
-//	AMOXOR_W,
-//	AMOCAS_W,
-//	AMOOR_W,
-//	AMOAND_W,
-//	AMOMIN_W,
-//	AMOMAX_W,
-//	AMOMINU_W,
-//	AMOMAXU_W,
-//	AMOADD_D,
-//	AMOSWAP_D,
-//	LR_D,
-//	SC_D,
-//	AMOXOR_D,
-//	AMOCAS_D,
-//	AMOOR_D,
-//	AMOAND_D,
-//	AMOMIN_D,
-//	AMOMAX_D,
-//	AMOMINU_D,
-//	AMOMAXU_D,
-//	AMOCAS_Q,
+	AMOADD_W,
+	AMOSWAP_W,
+	LR_W,
+	SC_W,
+	AMOXOR_W,
+	AMOCAS_W,
+	AMOOR_W,
+	AMOAND_W,
+	AMOMIN_W,
+	AMOMAX_W,
+	AMOMINU_W,
+	AMOMAXU_W,
+	AMOADD_D,
+	AMOSWAP_D,
+	LR_D,
+	SC_D,
+	AMOXOR_D,
+	AMOCAS_D,
+	AMOOR_D,
+	AMOAND_D,
+	AMOMIN_D,
+	AMOMAX_D,
+	AMOMINU_D,
+	AMOMAXU_D,
+	AMOCAS_Q,
 
 	// NMADD
 //	FNMADD_S,
@@ -417,6 +417,22 @@ IDec_Imm :: struct {
 	imm:	i64le
 }
 
+Flags_Rl_Aq :: enum {rl, aq}
+Flagbits_Rl_Aq :: distinct bit_set[Flags_Rl_Aq]
+
+IDec_Rd1s_Amo :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rl_aq:	Flagbits_Rl_Aq
+}
+
+IDec_Rd2s_Amo :: struct {
+	rd:		Reg64,
+	rs1:	Reg64,
+	rs2:	Reg64,
+	rl_aq:	Flagbits_Rl_Aq
+}
+
 
 /*
  * Decoded Instruction Definitions
@@ -490,6 +506,33 @@ BGEU		:: distinct IDec_R2s_Imm
 
 // JALR Opcode Instructions
 JALR		:: distinct IDec_Rd1s_Imm
+
+// AMO Opcode Instructions
+AMOADD_W	:: distinct IDec_Rd2s_Amo
+AMOSWAP_W	:: distinct IDec_Rd2s_Amo
+LR_W		:: distinct IDec_Rd1s_Amo
+SC_W		:: distinct IDec_Rd2s_Amo
+AMOXOR_W	:: distinct IDec_Rd2s_Amo
+AMOCAS_W	:: distinct IDec_Rd2s_Amo
+AMOOR_W		:: distinct IDec_Rd2s_Amo
+AMOAND_W	:: distinct IDec_Rd2s_Amo
+AMOMIN_W	:: distinct IDec_Rd2s_Amo
+AMOMAX_W	:: distinct IDec_Rd2s_Amo
+AMOMINU_W	:: distinct IDec_Rd2s_Amo
+AMOMAXU_W	:: distinct IDec_Rd2s_Amo
+AMOADD_D	:: distinct IDec_Rd2s_Amo
+AMOSWAP_D	:: distinct IDec_Rd2s_Amo
+LR_D		:: distinct IDec_Rd1s_Amo
+SC_D		:: distinct IDec_Rd2s_Amo
+AMOXOR_D	:: distinct IDec_Rd2s_Amo
+AMOCAS_D	:: distinct IDec_Rd2s_Amo
+AMOOR_D		:: distinct IDec_Rd2s_Amo
+AMOAND_D	:: distinct IDec_Rd2s_Amo
+AMOMIN_D	:: distinct IDec_Rd2s_Amo
+AMOMAX_D	:: distinct IDec_Rd2s_Amo
+AMOMINU_D	:: distinct IDec_Rd2s_Amo
+AMOMAXU_D	:: distinct IDec_Rd2s_Amo
+AMOCAS_Q	:: distinct IDec_Rd2s_Amo
 
 // JAL Opcode Instructions
 JAL			:: distinct IDec_Rd_Imm
