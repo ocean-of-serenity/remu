@@ -61,22 +61,22 @@ IDec :: union #no_nil {
 	C_SDSP,
 
 	// LOAD
-//	LB,
-//	LH,
-//	LW,
-//	LD,
-//	LBU,
-//	LHU,
+	LB,
+	LH,
+	LW,
+	LD,
+	LBU,
+	LHU,
 
 	// STORE
-//	SB,
-//	SH,
-//	SW,
-//	SD,
+	SB,
+	SH,
+	SW,
+	SD,
 
 	// MADD
-//	FMADD_S,
-//	FMADD_D,
+	FMADD_S,
+	FMADD_D,
 
 	// BRANCH
 	BEQ,
@@ -87,29 +87,29 @@ IDec :: union #no_nil {
 	BGEU,
 
 	// LOAD-FP
-//	FLW,
-//	FLD,
+	FLW,
+	FLD,
 
 	// STORE-FP
-//	FSW,
-//	FSD,
+	FSW,
+	FSD,
 
 	// MSUB
-//	FMSUB_S,
-//	FMSUB_D,
+	FMSUB_S,
+	FMSUB_D,
 
 	// JALR
 	JALR,
 
 	// NMSUB
-//	FNMSUB_S,
-//	FNMSUB_D,
+	FNMSUB_S,
+	FNMSUB_D,
 
 	// MISC-MEM
-//	FENCE,
-//	FENCE_TSO,
-//	PAUSE,
-//	FENCE_I,
+	FENCE,
+	FENCE_TSO,
+	PAUSE,
+	FENCE_I,
 
 	// AMO
 	AMOADD_W,
@@ -139,8 +139,8 @@ IDec :: union #no_nil {
 	AMOCAS_Q,
 
 	// NMADD
-//	FNMADD_S,
-//	FNMADD_D,
+	FNMADD_S,
+	FNMADD_D,
 
 	// JAL
 	JAL,
@@ -283,16 +283,16 @@ IDec :: union #no_nil {
 	FLI_D,
 
 	// SYSTEM
-//	ECALL,
-//	EBREAK,
-//	WRS_NTO,
-//	WRS_STO,
-//	CSRRW,
-//	CSRRS,
-//	CSRRC,
-//	CSRRWI,
-//	CSRRSI,
-//	CSRRCI,
+	ECALL,
+	EBREAK,
+	WRS_NTO,
+	WRS_STO,
+	CSRRW,
+	CSRRS,
+	CSRRC,
+	CSRRWI,
+	CSRRSI,
+	CSRRCI,
 
 	// AUIPC
 	AUIPC,
@@ -301,34 +301,34 @@ IDec :: union #no_nil {
 	LUI,
 
 	// OP-IMM-32
-//	ADDIW,
-//	SLLIW,
-//	SLLI_UW,
-//	CLZW,
-//	CTZW,
-//	CPOPW,
-//	SRLIW,
-//	SRAIW,
-//	RORIW,
+	ADDIW,
+	SLLIW,
+	SLLI_UW,
+	CLZW,
+	CTZW,
+	CPOPW,
+	SRLIW,
+	SRAIW,
+	RORIW,
 
 	// OP-32
-//	ADDW,
-//	MULW,
-//	ADD_UW,
-//	SUBW,
-//	SLLW,
-//	ROLW,
-//	SH1ADD_UW,
-//	DIVW,
-//	ZEXT_H,
-//	SH2ADD_UW,
-//	SRLW,
-//	DIVUW,
-//	SRAW,
-//	RORW,
-//	REMW,
-//	SH3ADD_UW,
-//	REMUW,
+	ADDW,
+	MULW,
+	ADD_UW,
+	SUBW,
+	SLLW,
+	ROLW,
+	SH1ADD_UW,
+	DIVW,
+	ZEXT_H,
+	SH2ADD_UW,
+	SRLW,
+	DIVUW,
+	SRAW,
+	RORW,
+	REMW,
+	SH3ADD_UW,
+	REMUW,
 }
 
 
@@ -338,99 +338,211 @@ IDec :: union #no_nil {
 
 IDec_Empty :: struct {}
 
-IDec_Rd :: struct {
-	rd:		Reg64
+IDec_Ir1s :: struct {
+	rs1:	IReg
 }
 
-IDec_R1s :: struct {
-	rs1:	Reg64
+IDec_Ird1s :: struct {
+	rd:		IReg,
+	rs1:	IReg
 }
 
-IDec_Rd1s :: struct {
-	rd:		Reg64,
-	rs1:	Reg64
+IDec_Ir2s :: struct {
+	rs1:	IReg,
+	rs2:	IReg
 }
 
-IDec_R2s :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64
+IDec_Ird2s :: struct {
+	rd:		IReg,
+	rs1:	IReg,
+	rs2:	IReg
 }
 
-IDec_Rd2s :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64
-}
-
-IDec_Rd_Uimm :: struct {
-	rd:		Reg64,
+IDec_Ird_Uimm :: struct {
+	rd:		IReg,
 	uimm:	u64le
 }
 
-IDec_R1s_Uimm :: struct {
-	rs1:	Reg64,
+IDec_Ir1s_Uimm :: struct {
+	rs1:	IReg,
 	uimm:	u64le
 }
 
-IDec_Rd1s_Uimm :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
+IDec_Ird1s_Uimm :: struct {
+	rd:		IReg,
+	rs1:	IReg,
 	uimm:	u64le
 }
 
-IDec_R2s_Uimm :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
+IDec_Ir2s_Uimm :: struct {
+	rs1:	IReg,
+	rs2:	IReg,
 	uimm:	u64le
 }
 
-IDec_Rd2s_Uimm :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
+IDec_Ird2s_Uimm :: struct {
+	rd:		IReg,
+	rs1:	IReg,
+	rs2:	IReg,
 	uimm:	u64le
 }
 
-IDec_Rd_Imm :: struct {
-	rd:		Reg64,
+IDec_Ird_Simm :: struct {
+	rd:		IReg,
 	imm:	i64le
 }
 
-IDec_R1s_Imm :: struct {
-	rs1:	Reg64,
+IDec_Ir1s_Simm :: struct {
+	rs1:	IReg,
 	imm:	i64le
 }
 
-IDec_Rd1s_Imm :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
+IDec_Ird1s_Simm :: struct {
+	rd:		IReg,
+	rs1:	IReg,
 	imm:	i64le
 }
 
-IDec_R2s_Imm :: struct {
-	rs1:	Reg64,
-	rs2:	Reg64,
+IDec_Ir2s_Simm :: struct {
+	rs1:	IReg,
+	rs2:	IReg,
 	imm:	i64le
 }
 
-IDec_Imm :: struct {
+IDec_Simm :: struct {
 	imm:	i64le
 }
 
 Flags_Rl_Aq :: enum {rl, aq}
 Flagbits_Rl_Aq :: distinct bit_set[Flags_Rl_Aq]
 
-IDec_Rd1s_Amo :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
+IDec_Ird1s_Amo :: struct {
+	rd:		IReg,
+	rs1:	IReg,
 	rl_aq:	Flagbits_Rl_Aq
 }
 
-IDec_Rd2s_Amo :: struct {
-	rd:		Reg64,
-	rs1:	Reg64,
-	rs2:	Reg64,
+IDec_Ird2s_Amo :: struct {
+	rd:		IReg,
+	rs1:	IReg,
+	rs2:	IReg,
 	rl_aq:	Flagbits_Rl_Aq
+}
+
+IDec_Ird1s_Csr :: struct {
+	rd:		IReg,
+	rs1:	IReg,
+	csr:	CSReg
+}
+
+IDec_Ird_Csr_Uimm :: struct {
+	rd:		IReg,
+	csr:	CSReg,
+	uimm:	u64le
+}
+
+
+// Float-specific types
+
+Frm :: enum {
+	rne,
+	rtz,
+	rdn,
+	rup,
+	rmm,
+	res1,
+	res2,
+	dyn
+}
+
+IDec_Frd_Uimm :: struct {
+	rd:		FReg,
+	uimm:	u64le
+}
+
+IDec_Fr1s_Uimm :: struct {
+	rs1:	FReg,
+	uimm:	u64le
+}
+
+IDec_Frd1s_Rm :: struct {
+	rd:		FReg,
+	rs1:	FReg,
+	rm:		Frm
+}
+
+IDec_Frd2s :: struct {
+	rd:		FReg,
+	rs1:	FReg,
+	rs2:	FReg,
+	rm:		Frm
+}
+
+IDec_Frd2s_Rm :: struct {
+	rd:		FReg,
+	rs1:	FReg,
+	rs2:	FReg,
+	rm:		Frm
+}
+
+IDec_Frd3s_Rm :: struct {
+	rd:		FReg,
+	rs1:	FReg,
+	rs2:	FReg,
+	rs3:	FReg,
+	rm:		Frm
+}
+
+IDec_Ird_Fr1s :: struct {
+	rd:		IReg,
+	rs1:	FReg
+}
+
+IDec_Ird_Fr1s_Rm :: struct {
+	rd:		IReg,
+	rs1:	FReg,
+	rm:		Frm
+}
+
+IDec_Ird_Fr2s :: struct {
+	rd:		IReg,
+	rs1:	FReg,
+	rs2:	FReg
+}
+
+IDec_Ir1s_Frd :: struct {
+	rd:		FReg,
+	rs1:	IReg
+}
+
+IDec_Ir1s_Frd_Rm :: struct {
+	rd:		FReg,
+	rs1:	IReg,
+	rm:		Frm
+}
+
+IDec_Ir1s_Frd_Uimm :: struct {
+	rd:		FReg,
+	rs1:	IReg,
+	uimm:	u64le
+}
+
+IDec_Ir1s_Frd_Simm :: struct {
+	rd:		FReg,
+	rs1:	IReg,
+	simm:	i64le
+}
+
+IDec_Ir1s_Fr1s_Uimm :: struct {
+	rs1:	IReg,
+	rs2:	FReg,
+	uimm:	u64le
+}
+
+IDec_Ir1s_Fr1s_Simm :: struct {
+	rs1:	IReg,
+	rs2:	FReg,
+	simm:	i64le
 }
 
 
@@ -442,242 +554,327 @@ IDec_Rd2s_Amo :: struct {
 ILLEGAL		:: distinct IDec_Empty
 
 // Compressed Opcode 00 Instructions
-C_ADDI4SPN	:: distinct IDec_Rd_Uimm
-C_FLD		:: distinct IDec_Rd1s_Uimm
-C_LW		:: distinct IDec_Rd1s_Uimm
-C_LD		:: distinct IDec_Rd1s_Uimm
-C_LBU		:: distinct IDec_Rd1s_Uimm
-C_LHU		:: distinct IDec_Rd1s_Uimm
-C_LH		:: distinct IDec_Rd1s_Uimm
-C_SB		:: distinct IDec_R2s_Uimm
-C_SH		:: distinct IDec_R2s_Uimm
-C_FSD		:: distinct IDec_R2s_Uimm
-C_SW		:: distinct IDec_R2s_Uimm
-C_SD		:: distinct IDec_R2s_Uimm
+C_ADDI4SPN	:: distinct IDec_Ird_Uimm
+C_FLD		:: distinct IDec_Ir1s_Frd_Uimm
+C_LW		:: distinct IDec_Ird1s_Uimm
+C_LD		:: distinct IDec_Ird1s_Uimm
+C_LBU		:: distinct IDec_Ird1s_Uimm
+C_LHU		:: distinct IDec_Ird1s_Uimm
+C_LH		:: distinct IDec_Ird1s_Uimm
+C_SB		:: distinct IDec_Ir2s_Uimm
+C_SH		:: distinct IDec_Ir2s_Uimm
+C_FSD		:: distinct IDec_Ir1s_Fr1s_Uimm
+C_SW		:: distinct IDec_Ir2s_Uimm
+C_SD		:: distinct IDec_Ir2s_Uimm
 
 // Compressed Opcode 01 Instructions
 C_NOP		:: distinct IDec_Empty
-C_ADDI		:: distinct IDec_Rd1s_Imm
-C_ADDIW		:: distinct IDec_Rd1s_Imm
-C_LI		:: distinct IDec_Rd_Imm
-C_ADDI16SP	:: distinct IDec_Rd_Imm
-C_LUI		:: distinct IDec_Rd_Imm
-C_SRLI		:: distinct IDec_Rd1s_Uimm
-C_SRAI		:: distinct IDec_Rd1s_Uimm
-C_ANDI		:: distinct IDec_Rd1s_Imm
-C_SUB		:: distinct IDec_Rd2s
-C_XOR		:: distinct IDec_Rd2s
-C_OR		:: distinct IDec_Rd2s
-C_AND		:: distinct IDec_Rd2s
-C_SUBW		:: distinct IDec_Rd2s
-C_ADDW		:: distinct IDec_Rd2s
-C_MUL		:: distinct IDec_Rd2s
-C_ZEXT_B	:: distinct IDec_Rd1s
-C_SEXT_B	:: distinct IDec_Rd1s
-C_ZEXT_H	:: distinct IDec_Rd1s
-C_SEXT_H	:: distinct IDec_Rd1s
-C_ZEXT_W	:: distinct IDec_Rd1s
-C_NOT		:: distinct IDec_Rd1s
-C_J			:: distinct IDec_Imm
-C_BEQZ		:: distinct IDec_R1s_Imm
-C_BNEZ		:: distinct IDec_R1s_Imm
+C_ADDI		:: distinct IDec_Ird1s_Simm
+C_ADDIW		:: distinct IDec_Ird1s_Simm
+C_LI		:: distinct IDec_Ird_Simm
+C_ADDI16SP	:: distinct IDec_Ird_Simm
+C_LUI		:: distinct IDec_Ird_Simm
+C_SRLI		:: distinct IDec_Ird1s_Uimm
+C_SRAI		:: distinct IDec_Ird1s_Uimm
+C_ANDI		:: distinct IDec_Ird1s_Simm
+C_SUB		:: distinct IDec_Ird2s
+C_XOR		:: distinct IDec_Ird2s
+C_OR		:: distinct IDec_Ird2s
+C_AND		:: distinct IDec_Ird2s
+C_SUBW		:: distinct IDec_Ird2s
+C_ADDW		:: distinct IDec_Ird2s
+C_MUL		:: distinct IDec_Ird2s
+C_ZEXT_B	:: distinct IDec_Ird1s
+C_SEXT_B	:: distinct IDec_Ird1s
+C_ZEXT_H	:: distinct IDec_Ird1s
+C_SEXT_H	:: distinct IDec_Ird1s
+C_ZEXT_W	:: distinct IDec_Ird1s
+C_NOT		:: distinct IDec_Ird1s
+C_J			:: distinct IDec_Simm
+C_BEQZ		:: distinct IDec_Ir1s_Simm
+C_BNEZ		:: distinct IDec_Ir1s_Simm
 
 // Compressed Opcode 10 Instructions
-C_SLLI		:: distinct IDec_Rd1s_Uimm
-C_FLDSP		:: distinct IDec_Rd_Uimm
-C_LWSP		:: distinct IDec_Rd_Uimm
-C_LDSP		:: distinct IDec_Rd_Uimm
-C_JR		:: distinct IDec_R1s
-C_MV		:: distinct IDec_Rd2s
+C_SLLI		:: distinct IDec_Ird1s_Uimm
+C_FLDSP		:: distinct IDec_Frd_Uimm
+C_LWSP		:: distinct IDec_Ird_Uimm
+C_LDSP		:: distinct IDec_Ird_Uimm
+C_JR		:: distinct IDec_Ir1s
+C_MV		:: distinct IDec_Ird2s
 C_EBREAK	:: distinct IDec_Empty
-C_JALR		:: distinct IDec_R1s
-C_ADD		:: distinct IDec_Rd2s
-C_FSDSP		:: distinct IDec_R1s_Uimm
-C_SWSP		:: distinct IDec_R1s_Uimm
-C_SDSP		:: distinct IDec_R1s_Uimm
+C_JALR		:: distinct IDec_Ir1s
+C_ADD		:: distinct IDec_Ird2s
+C_FSDSP		:: distinct IDec_Fr1s_Uimm
+C_SWSP		:: distinct IDec_Ir1s_Uimm
+C_SDSP		:: distinct IDec_Ir1s_Uimm
+
+// LOAD Opcode Instructions
+LB			:: distinct IDec_Ird1s_Simm
+LH			:: distinct IDec_Ird1s_Simm
+LW			:: distinct IDec_Ird1s_Simm
+LD			:: distinct IDec_Ird1s_Simm
+LBU			:: distinct IDec_Ird1s_Simm
+LHU			:: distinct IDec_Ird1s_Simm
+
+// STORE Opcode Instructions
+SB			:: distinct IDec_Ir2s_Simm
+SH			:: distinct IDec_Ir2s_Simm
+SW			:: distinct IDec_Ir2s_Simm
+SD			:: distinct IDec_Ir2s_Simm
+
+// MADD Opcode Instructions
+FMADD_S		:: distinct IDec_Frd3s_Rm
+FMADD_D		:: distinct IDec_Frd3s_Rm
 
 // BRANCH Opcode Instructions
-BEQ			:: distinct IDec_R2s_Imm
-BNE			:: distinct IDec_R2s_Imm
-BLT			:: distinct IDec_R2s_Imm
-BGE			:: distinct IDec_R2s_Imm
-BLTU		:: distinct IDec_R2s_Imm
-BGEU		:: distinct IDec_R2s_Imm
+BEQ			:: distinct IDec_Ir2s_Simm
+BNE			:: distinct IDec_Ir2s_Simm
+BLT			:: distinct IDec_Ir2s_Simm
+BGE			:: distinct IDec_Ir2s_Simm
+BLTU		:: distinct IDec_Ir2s_Simm
+BGEU		:: distinct IDec_Ir2s_Simm
+
+// LOAD-FP Opcode Instructions
+FLW			:: distinct IDec_Ir1s_Frd_Simm
+FLD			:: distinct IDec_Ir1s_Frd_Simm
+
+// STORE-FP Opcode Instructions
+FSW			:: distinct IDec_Ir1s_Fr1s_Simm
+FSD			:: distinct IDec_Ir1s_Fr1s_Simm
+
+// MSUB Opcode Instructions
+FMSUB_S		:: distinct IDec_Frd3s_Rm
+FMSUB_D		:: distinct IDec_Frd3s_Rm
 
 // JALR Opcode Instructions
-JALR		:: distinct IDec_Rd1s_Imm
+JALR		:: distinct IDec_Ird1s_Simm
+
+// NMSUB Opcode Instructions
+FNMSUB_S	:: distinct IDec_Frd3s_Rm
+FNMSUB_D	:: distinct IDec_Frd3s_Rm
+
+// MISC-MEM Opcode Instructions
+FENCE		:: distinct IDec_Ird1s_Uimm
+FENCE_TSO	:: distinct IDec_Ird1s_Uimm
+PAUSE		:: distinct IDec_Ird1s_Uimm
+FENCE_I		:: distinct IDec_Ird1s_Uimm
 
 // AMO Opcode Instructions
-AMOADD_W	:: distinct IDec_Rd2s_Amo
-AMOSWAP_W	:: distinct IDec_Rd2s_Amo
-LR_W		:: distinct IDec_Rd1s_Amo
-SC_W		:: distinct IDec_Rd2s_Amo
-AMOXOR_W	:: distinct IDec_Rd2s_Amo
-AMOCAS_W	:: distinct IDec_Rd2s_Amo
-AMOOR_W		:: distinct IDec_Rd2s_Amo
-AMOAND_W	:: distinct IDec_Rd2s_Amo
-AMOMIN_W	:: distinct IDec_Rd2s_Amo
-AMOMAX_W	:: distinct IDec_Rd2s_Amo
-AMOMINU_W	:: distinct IDec_Rd2s_Amo
-AMOMAXU_W	:: distinct IDec_Rd2s_Amo
-AMOADD_D	:: distinct IDec_Rd2s_Amo
-AMOSWAP_D	:: distinct IDec_Rd2s_Amo
-LR_D		:: distinct IDec_Rd1s_Amo
-SC_D		:: distinct IDec_Rd2s_Amo
-AMOXOR_D	:: distinct IDec_Rd2s_Amo
-AMOCAS_D	:: distinct IDec_Rd2s_Amo
-AMOOR_D		:: distinct IDec_Rd2s_Amo
-AMOAND_D	:: distinct IDec_Rd2s_Amo
-AMOMIN_D	:: distinct IDec_Rd2s_Amo
-AMOMAX_D	:: distinct IDec_Rd2s_Amo
-AMOMINU_D	:: distinct IDec_Rd2s_Amo
-AMOMAXU_D	:: distinct IDec_Rd2s_Amo
-AMOCAS_Q	:: distinct IDec_Rd2s_Amo
+AMOADD_W	:: distinct IDec_Ird2s_Amo
+AMOSWAP_W	:: distinct IDec_Ird2s_Amo
+LR_W		:: distinct IDec_Ird1s_Amo
+SC_W		:: distinct IDec_Ird2s_Amo
+AMOXOR_W	:: distinct IDec_Ird2s_Amo
+AMOCAS_W	:: distinct IDec_Ird2s_Amo
+AMOOR_W		:: distinct IDec_Ird2s_Amo
+AMOAND_W	:: distinct IDec_Ird2s_Amo
+AMOMIN_W	:: distinct IDec_Ird2s_Amo
+AMOMAX_W	:: distinct IDec_Ird2s_Amo
+AMOMINU_W	:: distinct IDec_Ird2s_Amo
+AMOMAXU_W	:: distinct IDec_Ird2s_Amo
+AMOADD_D	:: distinct IDec_Ird2s_Amo
+AMOSWAP_D	:: distinct IDec_Ird2s_Amo
+LR_D		:: distinct IDec_Ird1s_Amo
+SC_D		:: distinct IDec_Ird2s_Amo
+AMOXOR_D	:: distinct IDec_Ird2s_Amo
+AMOCAS_D	:: distinct IDec_Ird2s_Amo
+AMOOR_D		:: distinct IDec_Ird2s_Amo
+AMOAND_D	:: distinct IDec_Ird2s_Amo
+AMOMIN_D	:: distinct IDec_Ird2s_Amo
+AMOMAX_D	:: distinct IDec_Ird2s_Amo
+AMOMINU_D	:: distinct IDec_Ird2s_Amo
+AMOMAXU_D	:: distinct IDec_Ird2s_Amo
+AMOCAS_Q	:: distinct IDec_Ird2s_Amo
+
+// NMADD Opcode Instructions
+FNMADD_S	:: distinct IDec_Frd3s_Rm
+FNMADD_D	:: distinct IDec_Frd3s_Rm
 
 // JAL Opcode Instructions
-JAL			:: distinct IDec_Rd_Imm
+JAL			:: distinct IDec_Ird_Simm
 
 // OP-IMM Opcode Instructions
 NOP			:: distinct IDec_Empty
-ADDI		:: distinct IDec_Rd1s_Imm
-SLLI		:: distinct IDec_Rd1s_Uimm
-BSETI		:: distinct IDec_Rd1s_Uimm
-BCLRI		:: distinct IDec_Rd1s_Uimm
-CLZ			:: distinct IDec_Rd1s
-CTZ			:: distinct IDec_Rd1s
-CPOP		:: distinct IDec_Rd1s
-SEXT_B		:: distinct IDec_Rd1s
-SEXT_H		:: distinct IDec_Rd1s
-BINVI		:: distinct IDec_Rd1s_Uimm
-SLTI		:: distinct IDec_Rd1s_Imm
-SLTIU		:: distinct IDec_Rd1s_Uimm
-XORI		:: distinct IDec_Rd1s_Imm
-SRLI		:: distinct IDec_Rd1s_Uimm
-ORC_B		:: distinct IDec_Rd1s
-SRAI		:: distinct IDec_Rd1s_Uimm
-BEXTI		:: distinct IDec_Rd1s_Uimm
-RORI		:: distinct IDec_Rd1s_Uimm
-BREV8		:: distinct IDec_Rd1s
-REV8		:: distinct IDec_Rd1s
-ORI			:: distinct IDec_Rd1s_Imm
-ANDI		:: distinct IDec_Rd1s_Imm
+ADDI		:: distinct IDec_Ird1s_Simm
+SLLI		:: distinct IDec_Ird1s_Uimm
+BSETI		:: distinct IDec_Ird1s_Uimm
+BCLRI		:: distinct IDec_Ird1s_Uimm
+CLZ			:: distinct IDec_Ird1s
+CTZ			:: distinct IDec_Ird1s
+CPOP		:: distinct IDec_Ird1s
+SEXT_B		:: distinct IDec_Ird1s
+SEXT_H		:: distinct IDec_Ird1s
+BINVI		:: distinct IDec_Ird1s_Uimm
+SLTI		:: distinct IDec_Ird1s_Simm
+SLTIU		:: distinct IDec_Ird1s_Uimm
+XORI		:: distinct IDec_Ird1s_Simm
+SRLI		:: distinct IDec_Ird1s_Uimm
+ORC_B		:: distinct IDec_Ird1s
+SRAI		:: distinct IDec_Ird1s_Uimm
+BEXTI		:: distinct IDec_Ird1s_Uimm
+RORI		:: distinct IDec_Ird1s_Uimm
+BREV8		:: distinct IDec_Ird1s
+REV8		:: distinct IDec_Ird1s
+ORI			:: distinct IDec_Ird1s_Simm
+ANDI		:: distinct IDec_Ird1s_Simm
 
 // OP Opcode Instructions
-ADD			:: distinct IDec_Rd2s
-MUL			:: distinct IDec_Rd2s
-SUB			:: distinct IDec_Rd2s
-SLL			:: distinct IDec_Rd2s
-MULH		:: distinct IDec_Rd2s
-CLMUL		:: distinct IDec_Rd2s
-BSET		:: distinct IDec_Rd2s
-BCLR		:: distinct IDec_Rd2s
-ROL			:: distinct IDec_Rd2s
-BINV		:: distinct IDec_Rd2s
-SLT			:: distinct IDec_Rd2s
-MULHSU		:: distinct IDec_Rd2s
-CLMULR		:: distinct IDec_Rd2s
-SH1ADD		:: distinct IDec_Rd2s
-XPERM_N		:: distinct IDec_Rd2s
-SLTU		:: distinct IDec_Rd2s
-MULHU		:: distinct IDec_Rd2s
-CLMULH		:: distinct IDec_Rd2s
-XOR			:: distinct IDec_Rd2s
-DIV			:: distinct IDec_Rd2s
-PACK		:: distinct IDec_Rd2s
-MIN			:: distinct IDec_Rd2s
-SH2ADD		:: distinct IDec_Rd2s
-XPERM_B		:: distinct IDec_Rd2s
-XNOR		:: distinct IDec_Rd2s
-SRL			:: distinct IDec_Rd2s
-DIVU		:: distinct IDec_Rd2s
-MINU		:: distinct IDec_Rd2s
-CZERO_EQZ	:: distinct IDec_Rd2s
-SRA			:: distinct IDec_Rd2s
-BEXT		:: distinct IDec_Rd2s
-ROR			:: distinct IDec_Rd2s
-OR			:: distinct IDec_Rd2s
-REM			:: distinct IDec_Rd2s
-MAX			:: distinct IDec_Rd2s
-SH3ADD		:: distinct IDec_Rd2s
-ORN			:: distinct IDec_Rd2s
-AND			:: distinct IDec_Rd2s
-REMU		:: distinct IDec_Rd2s
-PACKH		:: distinct IDec_Rd2s
-MAXU		:: distinct IDec_Rd2s
-CZERO_NEZ	:: distinct IDec_Rd2s
-ANDN		:: distinct IDec_Rd2s
+ADD			:: distinct IDec_Ird2s
+MUL			:: distinct IDec_Ird2s
+SUB			:: distinct IDec_Ird2s
+SLL			:: distinct IDec_Ird2s
+MULH		:: distinct IDec_Ird2s
+CLMUL		:: distinct IDec_Ird2s
+BSET		:: distinct IDec_Ird2s
+BCLR		:: distinct IDec_Ird2s
+ROL			:: distinct IDec_Ird2s
+BINV		:: distinct IDec_Ird2s
+SLT			:: distinct IDec_Ird2s
+MULHSU		:: distinct IDec_Ird2s
+CLMULR		:: distinct IDec_Ird2s
+SH1ADD		:: distinct IDec_Ird2s
+XPERM_N		:: distinct IDec_Ird2s
+SLTU		:: distinct IDec_Ird2s
+MULHU		:: distinct IDec_Ird2s
+CLMULH		:: distinct IDec_Ird2s
+XOR			:: distinct IDec_Ird2s
+DIV			:: distinct IDec_Ird2s
+PACK		:: distinct IDec_Ird2s
+MIN			:: distinct IDec_Ird2s
+SH2ADD		:: distinct IDec_Ird2s
+XPERM_B		:: distinct IDec_Ird2s
+XNOR		:: distinct IDec_Ird2s
+SRL			:: distinct IDec_Ird2s
+DIVU		:: distinct IDec_Ird2s
+MINU		:: distinct IDec_Ird2s
+CZERO_EQZ	:: distinct IDec_Ird2s
+SRA			:: distinct IDec_Ird2s
+BEXT		:: distinct IDec_Ird2s
+ROR			:: distinct IDec_Ird2s
+OR			:: distinct IDec_Ird2s
+REM			:: distinct IDec_Ird2s
+MAX			:: distinct IDec_Ird2s
+SH3ADD		:: distinct IDec_Ird2s
+ORN			:: distinct IDec_Ird2s
+AND			:: distinct IDec_Ird2s
+REMU		:: distinct IDec_Ird2s
+PACKH		:: distinct IDec_Ird2s
+MAXU		:: distinct IDec_Ird2s
+CZERO_NEZ	:: distinct IDec_Ird2s
+ANDN		:: distinct IDec_Ird2s
 
 // OP-FP Opcode distinct
-FADD_S		:: distinct IDec_Rd2s_Uimm
-FADD_D		:: distinct IDec_Rd2s_Uimm
-FSUB_S		:: distinct IDec_Rd2s_Uimm
-FSUB_D		:: distinct IDec_Rd2s_Uimm
-FMUL_S		:: distinct IDec_Rd2s_Uimm
-FMUL_D		:: distinct IDec_Rd2s_Uimm
-FDIV_S		:: distinct IDec_Rd2s_Uimm
-FDIV_D		:: distinct IDec_Rd2s_Uimm
-FSGNJ_S		:: distinct IDec_Rd2s
-FSGNJN_S	:: distinct IDec_Rd2s
-FSGNJX_S	:: distinct IDec_Rd2s
-FSGNJ_D		:: distinct IDec_Rd2s
-FSGNJN_D	:: distinct IDec_Rd2s
-FSGNJX_D	:: distinct IDec_Rd2s
-FMIN_S		:: distinct IDec_Rd2s
-FMAX_S		:: distinct IDec_Rd2s
-FMINM_S		:: distinct IDec_Rd2s
-FMAXM_S		:: distinct IDec_Rd2s
-FMIN_D		:: distinct IDec_Rd2s
-FMAX_D		:: distinct IDec_Rd2s
-FMINM_D		:: distinct IDec_Rd2s
-FMAXM_D		:: distinct IDec_Rd2s
-FCVT_S_D	:: distinct IDec_Rd1s_Uimm
-FROUND_S	:: distinct IDec_Rd1s_Uimm
-FROUNDNX_S	:: distinct IDec_Rd1s_Uimm
-FCVT_D_S	:: distinct IDec_Rd1s_Uimm
-FROUND_D	:: distinct IDec_Rd1s_Uimm
-FROUNDNX_D	:: distinct IDec_Rd1s_Uimm
-FSQRT_S		:: distinct IDec_Rd1s_Uimm
-FSQRT_D		:: distinct IDec_Rd1s_Uimm
-FLE_S		:: distinct IDec_Rd2s
-FLT_S		:: distinct IDec_Rd2s
-FEQ_S		:: distinct IDec_Rd2s
-FLEQ_S		:: distinct IDec_Rd2s
-FLTQ_S		:: distinct IDec_Rd2s
-FLE_D		:: distinct IDec_Rd2s
-FLT_D		:: distinct IDec_Rd2s
-FEQ_D		:: distinct IDec_Rd2s
-FLEQ_D		:: distinct IDec_Rd2s
-FLTQ_D		:: distinct IDec_Rd2s
-FCVT_W_S	:: distinct IDec_Rd1s_Uimm
-FCVT_WU_S	:: distinct IDec_Rd1s_Uimm
-FCVT_L_S	:: distinct IDec_Rd1s_Uimm
-FCVT_LU_S	:: distinct IDec_Rd1s_Uimm
-FCVT_W_D	:: distinct IDec_Rd1s_Uimm
-FCVT_WU_D	:: distinct IDec_Rd1s_Uimm
-FCVT_L_D	:: distinct IDec_Rd1s_Uimm
-FCVT_LU_D	:: distinct IDec_Rd1s_Uimm
-FCVTMOD_W_D	:: distinct IDec_Rd1s
-FCVT_S_W	:: distinct IDec_Rd1s_Uimm
-FCVT_S_WU	:: distinct IDec_Rd1s_Uimm
-FCVT_S_L	:: distinct IDec_Rd1s_Uimm
-FCVT_S_LU	:: distinct IDec_Rd1s_Uimm
-FCVT_D_W	:: distinct IDec_Rd1s_Uimm
-FCVT_D_WU	:: distinct IDec_Rd1s_Uimm
-FCVT_D_L	:: distinct IDec_Rd1s_Uimm
-FCVT_D_LU	:: distinct IDec_Rd1s_Uimm
-FMV_X_W		:: distinct IDec_Rd1s
-FCLASS_S	:: distinct IDec_Rd1s
-FMV_X_D		:: distinct IDec_Rd1s
-FCLASS_D	:: distinct IDec_Rd1s
-FMV_W_X		:: distinct IDec_Rd1s
-FLI_S		:: distinct IDec_Rd_Uimm
-FMV_D_X		:: distinct IDec_Rd1s
-FLI_D		:: distinct IDec_Rd_Uimm
+FADD_S		:: distinct IDec_Frd2s_Rm
+FADD_D		:: distinct IDec_Frd2s_Rm
+FSUB_S		:: distinct IDec_Frd2s_Rm
+FSUB_D		:: distinct IDec_Frd2s_Rm
+FMUL_S		:: distinct IDec_Frd2s_Rm
+FMUL_D		:: distinct IDec_Frd2s_Rm
+FDIV_S		:: distinct IDec_Frd2s_Rm
+FDIV_D		:: distinct IDec_Frd2s_Rm
+FSGNJ_S		:: distinct IDec_Frd2s
+FSGNJN_S	:: distinct IDec_Frd2s
+FSGNJX_S	:: distinct IDec_Frd2s
+FSGNJ_D		:: distinct IDec_Frd2s
+FSGNJN_D	:: distinct IDec_Frd2s
+FSGNJX_D	:: distinct IDec_Frd2s
+FMIN_S		:: distinct IDec_Frd2s
+FMAX_S		:: distinct IDec_Frd2s
+FMINM_S		:: distinct IDec_Frd2s
+FMAXM_S		:: distinct IDec_Frd2s
+FMIN_D		:: distinct IDec_Frd2s
+FMAX_D		:: distinct IDec_Frd2s
+FMINM_D		:: distinct IDec_Frd2s
+FMAXM_D		:: distinct IDec_Frd2s
+FCVT_S_D	:: distinct IDec_Frd1s_Rm
+FROUND_S	:: distinct IDec_Frd1s_Rm
+FROUNDNX_S	:: distinct IDec_Frd1s_Rm
+FCVT_D_S	:: distinct IDec_Frd1s_Rm
+FROUND_D	:: distinct IDec_Frd1s_Rm
+FROUNDNX_D	:: distinct IDec_Frd1s_Rm
+FSQRT_S		:: distinct IDec_Frd1s_Rm
+FSQRT_D		:: distinct IDec_Frd1s_Rm
+FLE_S		:: distinct IDec_Ird_Fr2s
+FLT_S		:: distinct IDec_Ird_Fr2s
+FEQ_S		:: distinct IDec_Ird_Fr2s
+FLEQ_S		:: distinct IDec_Ird_Fr2s
+FLTQ_S		:: distinct IDec_Ird_Fr2s
+FLE_D		:: distinct IDec_Ird_Fr2s
+FLT_D		:: distinct IDec_Ird_Fr2s
+FEQ_D		:: distinct IDec_Ird_Fr2s
+FLEQ_D		:: distinct IDec_Ird_Fr2s
+FLTQ_D		:: distinct IDec_Ird_Fr2s
+FCVT_W_S	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_WU_S	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_L_S	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_LU_S	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_W_D	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_WU_D	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_L_D	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_LU_D	:: distinct IDec_Ird_Fr1s_Rm
+FCVTMOD_W_D	:: distinct IDec_Ird_Fr1s_Rm
+FCVT_S_W	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_S_WU	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_S_L	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_S_LU	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_D_W	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_D_WU	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_D_L	:: distinct IDec_Ir1s_Frd_Rm
+FCVT_D_LU	:: distinct IDec_Ir1s_Frd_Rm
+FMV_X_W		:: distinct IDec_Ird_Fr1s
+FCLASS_S	:: distinct IDec_Ird_Fr1s
+FMV_X_D		:: distinct IDec_Ird_Fr1s
+FCLASS_D	:: distinct IDec_Ird_Fr1s
+FMV_W_X		:: distinct IDec_Ir1s_Frd
+FLI_S		:: distinct IDec_Frd_Uimm
+FMV_D_X		:: distinct IDec_Ir1s_Frd
+FLI_D		:: distinct IDec_Frd_Uimm
+
+// SYSTEM
+ECALL		:: distinct IDec_Empty
+EBREAK		:: distinct IDec_Empty
+WRS_NTO		:: distinct IDec_Empty
+WRS_STO		:: distinct IDec_Empty
+CSRRW		:: distinct IDec_Ird1s_Csr
+CSRRS		:: distinct IDec_Ird1s_Csr
+CSRRC		:: distinct IDec_Ird1s_Csr
+CSRRWI		:: distinct IDec_Ird_Csr_Uimm
+CSRRSI		:: distinct IDec_Ird_Csr_Uimm
+CSRRCI		:: distinct IDec_Ird_Csr_Uimm
 
 // AUIPC Opcode Instructions
-AUIPC		:: distinct IDec_Rd_Imm
+AUIPC		:: distinct IDec_Ird_Simm
 
 // LUI Opcode Instructions
-LUI			:: distinct IDec_Rd_Imm
+LUI			:: distinct IDec_Ird_Simm
 
+// OP-IMM-32 Opcode Instructions
+ADDIW		:: distinct IDec_Ird1s_Simm
+SLLIW		:: distinct IDec_Ird1s_Uimm
+SLLI_UW		:: distinct IDec_Ird1s_Uimm
+CLZW		:: distinct IDec_Ird1s
+CTZW		:: distinct IDec_Ird1s
+CPOPW		:: distinct IDec_Ird1s
+SRLIW		:: distinct IDec_Ird1s_Uimm
+SRAIW		:: distinct IDec_Ird1s_Uimm
+RORIW		:: distinct IDec_Ird1s_Uimm
+
+// OP-32 Opcode Instructions
+ADDW		:: distinct IDec_Ird2s
+MULW		:: distinct IDec_Ird2s
+ADD_UW		:: distinct IDec_Ird2s
+SUBW		:: distinct IDec_Ird2s
+SLLW		:: distinct IDec_Ird2s
+ROLW		:: distinct IDec_Ird2s
+SH1ADD_UW	:: distinct IDec_Ird2s
+DIVW		:: distinct IDec_Ird2s
+ZEXT_H		:: distinct IDec_Ird1s
+SH2ADD_UW	:: distinct IDec_Ird2s
+SRLW		:: distinct IDec_Ird2s
+DIVUW		:: distinct IDec_Ird2s
+SRAW		:: distinct IDec_Ird2s
+RORW		:: distinct IDec_Ird2s
+REMW		:: distinct IDec_Ird2s
+SH3ADD_UW	:: distinct IDec_Ird2s
+REMUW		:: distinct IDec_Ird2s
 
