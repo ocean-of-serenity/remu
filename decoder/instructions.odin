@@ -389,28 +389,28 @@ IDec_Ird2s_Uimm :: struct {
 
 IDec_Ird_Simm :: struct {
 	rd:		IReg,
-	imm:	i64le
+	simm:	i64le
 }
 
 IDec_Ir1s_Simm :: struct {
 	rs1:	IReg,
-	imm:	i64le
+	simm:	i64le
 }
 
 IDec_Ird1s_Simm :: struct {
 	rd:		IReg,
 	rs1:	IReg,
-	imm:	i64le
+	simm:	i64le
 }
 
 IDec_Ir2s_Simm :: struct {
 	rs1:	IReg,
 	rs2:	IReg,
-	imm:	i64le
+	simm:	i64le
 }
 
 IDec_Simm :: struct {
-	imm:	i64le
+	simm:	i64le
 }
 
 Flags_Rl_Aq :: enum {rl, aq}
@@ -545,6 +545,16 @@ IDec_Ir1s_Fr1s_Simm :: struct {
 	simm:	i64le
 }
 
+Flags_MOSet :: enum {w, r, o, i}
+Flagbits_MOSet :: distinct bit_set[Flags_MOSet]
+
+IDec_Ird1s_Fence :: struct {
+	rd:		IReg,
+	rs1:	IReg,
+	succ:	Flagbits_MOSet,
+	pred:	Flagbits_MOSet
+}
+
 
 /*
  * Decoded Instruction Definitions
@@ -654,9 +664,9 @@ FNMSUB_S	:: distinct IDec_Frd3s_Rm
 FNMSUB_D	:: distinct IDec_Frd3s_Rm
 
 // MISC-MEM Opcode Instructions
-FENCE		:: distinct IDec_Ird1s_Uimm
-FENCE_TSO	:: distinct IDec_Ird1s_Uimm
-PAUSE		:: distinct IDec_Ird1s_Uimm
+FENCE		:: distinct IDec_Ird1s_Fence
+FENCE_TSO	:: distinct IDec_Ird1s
+PAUSE		:: distinct IDec_Empty
 FENCE_I		:: distinct IDec_Ird1s_Uimm
 
 // AMO Opcode Instructions

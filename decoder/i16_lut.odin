@@ -8,36 +8,36 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		ADDI4SPN_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rd_r:		u8 | 3,
-			uimm3:		u8 | 1,
-			uimm2:		u8 | 1,
-			uimm6to9:	u8 | 4,
-			uimm4to5:	u8 | 2,
+			imm3:		u8 | 1,
+			imm2:		u8 | 1,
+			imm6to9:	u8 | 4,
+			imm4to5:	u8 | 2,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(ADDI4SPN_ENC) ie
 
-		if	ie.rd_r		== 0 || ie.uimm2		== 0 ||
-			ie.uimm3	== 0 || ie.uimm6to9		== 0 || ie.uimm4to5 == 0 {
+		if	ie.rd_r		== 0 || ie.imm2		== 0 ||
+			ie.imm3		== 0 || ie.imm6to9	== 0 || ie.imm4to5 == 0 {
 			return // ILLEGAL{}
 		}
 
-		UIMM_DEC :: bit_field u16le {
-			uimm0to1:	u8 | 2,
-			uimm2:		u8 | 1,
-			uimm3:		u8 | 1,
-			uimm4to5:	u8 | 2,
-			uimm6to9:	u8 | 4
+		IMM_DEC :: bit_field u16le {
+			imm0to1:	u8 | 2,
+			imm2:		u8 | 1,
+			imm3:		u8 | 1,
+			imm4to5:	u8 | 2,
+			imm6to9:	u8 | 4
 		}
 
 		return C_ADDI4SPN{
 			rd		= IReg(ie.rd_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to1	= 0,
-				uimm2		= ie.uimm2,
-				uimm3		= ie.uimm3,
-				uimm4to5	= ie.uimm4to5,
-				uimm6to9	= ie.uimm6to9
+			uimm	= u64le(IMM_DEC{
+				imm0to1	= 0,
+				imm2	= ie.imm2,
+				imm3	= ie.imm3,
+				imm4to5	= ie.imm4to5,
+				imm6to9	= ie.imm6to9
 			})
 		}
 
@@ -45,27 +45,27 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_FLD_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rd_r:		u8 | 3,
-			uimm6to7:	u8 | 2,
+			imm6to7:	u8 | 2,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_FLD_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to7:	u8 | 2
 		}
 
 		return C_FLD{
 			rd		= FReg(ie.rd_r) + FReg.f7,
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to7	= ie.uimm6to7
+			uimm	= u64le(IMM_DEC{
+				imm0to2	= 0,
+				imm3to5	= ie.imm3to5,
+				imm6to7	= ie.imm6to7
 			})
 		}
 
@@ -73,30 +73,30 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_LW_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rd_r:		u8 | 3,
-			uimm6:		u8 | 1,
-			uimm2:		u8 | 1,
+			imm6:		u8 | 1,
+			imm2:		u8 | 1,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_LW_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to1:	u8 | 2,
-			uimm2:		u8 | 1,
-			uimm3to5:	u8 | 3,
-			uimm6:		u8 | 1
+		IMM_DEC :: bit_field u8 {
+			imm0to1:	u8 | 2,
+			imm2:		u8 | 1,
+			imm3to5:	u8 | 3,
+			imm6:		u8 | 1
 		}
 
 		return C_LW{
 			rd		= IReg(ie.rd_r) + IReg.x7,
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to1	= 0,
-				uimm2		= ie.uimm2,
-				uimm3to5	= ie.uimm3to5,
-				uimm6		= ie.uimm6
+			uimm	= u64le(IMM_DEC{
+				imm0to1	= 0,
+				imm2	= ie.imm2,
+				imm3to5	= ie.imm3to5,
+				imm6	= ie.imm6
 			})
 		}
 
@@ -104,27 +104,27 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_LD_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rd_r:		u8 | 3,
-			uimm6to7:	u8 | 2,
+			imm6to7:	u8 | 2,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_LD_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to7:	u8 | 2
 		}
 
 		return C_LD{
 			rd		= IReg(ie.rd_r) + IReg.x7,
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to7	= ie.uimm6to7
+			uimm	= u64le(IMM_DEC{
+				imm0to2	= 0,
+				imm3to5	= ie.imm3to5,
+				imm6to7	= ie.imm6to7
 			})
 		}
 
@@ -145,8 +145,8 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			C_LBU_ENC :: bit_field u16le {
 				opc:		u8 | 2,
 				rd_r:		u8 | 3,
-				uimm1:		u8 | 1,
-				uimm0:		u8 | 1,
+				imm1:		u8 | 1,
+				imm0:		u8 | 1,
 				rs1_r:		u8 | 3,
 				funct3_2:	u8 | 3,
 				funct3_1:	u8 | 3
@@ -154,17 +154,17 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			ie := transmute(C_LBU_ENC) ie
 
-			UIMM_DEC :: bit_field u8 {
-				uimm0:	u8 | 1,
-				uimm1:	u8 | 1
+			IMM_DEC :: bit_field u8 {
+				imm0:	u8 | 1,
+				imm1:	u8 | 1
 			}
 
 			return C_LBU{
 				rd		= IReg(ie.rd_r) + IReg.x7,
 				rs1		= IReg(ie.rs1_r) + IReg.x7,
-				uimm	= u64le(UIMM_DEC{
-					uimm0	= ie.uimm0,
-					uimm1	= ie.uimm1
+				uimm	= u64le(IMM_DEC{
+					imm0	= ie.imm0,
+					imm1	= ie.imm1
 				})
 			}
 
@@ -174,7 +174,7 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 				C_LHU_ENC :: bit_field u16le {
 					opc:		u8 | 2,
 					rd_r:		u8 | 3,
-					uimm1:		u8 | 1,
+					imm1:		u8 | 1,
 					funct1:		u8 | 1,
 					rs1_r:		u8 | 3,
 					funct3_2:	u8 | 3,
@@ -183,17 +183,17 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 				ie := transmute(C_LHU_ENC) ie
 
-				UIMM_DEC :: bit_field u8 {
-					uimm0:	u8 | 1,
-					uimm1:	u8 | 1
+				IMM_DEC :: bit_field u8 {
+					imm0:	u8 | 1,
+					imm1:	u8 | 1
 				}
 
 				return C_LHU{
 					rd		= IReg(ie.rd_r) + IReg.x7,
 					rs1		= IReg(ie.rs1_r) + IReg.x7,
-					uimm	= u64le(UIMM_DEC{
-						uimm0	= 0,
-						uimm1	= ie.uimm1
+					uimm	= u64le(IMM_DEC{
+						imm0	= 0,
+						imm1	= ie.imm1
 					})
 				}
 
@@ -201,7 +201,7 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 				C_LH_ENC :: bit_field u16le {
 					opc:		u8 | 2,
 					rd_r:		u8 | 3,
-					uimm1:		u8 | 1,
+					imm1:		u8 | 1,
 					funct1:		u8 | 1,
 					rs1_r:		u8 | 3,
 					funct3_2:	u8 | 3,
@@ -210,17 +210,17 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 				ie := transmute(C_LH_ENC) ie
 
-				UIMM_DEC :: bit_field u8 {
-					uimm0:	u8 | 1,
-					uimm1:	u8 | 1
+				IMM_DEC :: bit_field u8 {
+					imm0:	u8 | 1,
+					imm1:	u8 | 1
 				}
 
 				return C_LH{
 					rd		= IReg(ie.rd_r) + IReg.x7,
 					rs1		= IReg(ie.rs1_r) + IReg.x7,
-					uimm	= u64le(UIMM_DEC{
-						uimm0	= 0,
-						uimm1	= ie.uimm1
+					uimm	= u64le(IMM_DEC{
+						imm0	= 0,
+						imm1	= ie.imm1
 					})
 				}
 			}
@@ -229,8 +229,8 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			C_SB_ENC :: bit_field u16le {
 				opc:		u8 | 2,
 				rs2_r:		u8 | 3,
-				uimm1:		u8 | 1,
-				uimm0:		u8 | 1,
+				imm1:		u8 | 1,
+				imm0:		u8 | 1,
 				rs1_r:		u8 | 3,
 				funct3_2:	u8 | 3,
 				funct3_1:	u8 | 3
@@ -238,17 +238,17 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			ie := transmute(C_SB_ENC) ie
 
-			UIMM_DEC :: bit_field u8 {
-				uimm0:	u8 | 1,
-				uimm1:	u8 | 1
+			IMM_DEC :: bit_field u8 {
+				imm0:	u8 | 1,
+				imm1:	u8 | 1
 			}
 
 			return C_SB{
 				rs1		= IReg(ie.rs1_r) + IReg.x7,
 				rs2		= IReg(ie.rs2_r) + IReg.x7,
-				uimm	= u64le(UIMM_DEC{
-					uimm0	= ie.uimm0,
-					uimm1	= ie.uimm1
+				uimm	= u64le(IMM_DEC{
+					imm0	= ie.imm0,
+					imm1	= ie.imm1
 				})
 			}
 
@@ -256,7 +256,7 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			C_SH_ENC :: bit_field u16le {
 				opc:		u8 | 2,
 				rs2_r:		u8 | 3,
-				uimm1:		u8 | 1,
+				imm1:		u8 | 1,
 				funct1:		u8 | 1,
 				rs1_r:		u8 | 3,
 				funct3_2:	u8 | 3,
@@ -267,17 +267,17 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			if ie.funct1 == 1 do return // ILLEGAL{}
 
-			UIMM_DEC :: bit_field u8 {
-				uimm0:	u8 | 1,
-				uimm1:	u8 | 1
+			IMM_DEC :: bit_field u8 {
+				imm0:	u8 | 1,
+				imm1:	u8 | 1
 			}
 
 			return C_SH{
 				rs1		= IReg(ie.rs1_r) + IReg.x7,
 				rs2		= IReg(ie.rs2_r) + IReg.x7,
-				uimm	= u64le(UIMM_DEC{
-					uimm0	= 0,
-					uimm1	= ie.uimm1
+				uimm	= u64le(IMM_DEC{
+					imm0	= 0,
+					imm1	= ie.imm1
 				})
 			}
 		}
@@ -286,27 +286,27 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_FSD_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs2_r:		u8 | 3,
-			uimm6to7:	u8 | 2,
+			imm6to7:	u8 | 2,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_FSD_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to7:	u8 | 2
 		}
 
 		return C_FSD{
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
 			rs2		= FReg(ie.rs2_r) + FReg.f7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to7	= ie.uimm6to7
+			uimm	= u64le(IMM_DEC{
+				imm0to2	= 0,
+				imm3to5	= ie.imm3to5,
+				imm6to7	= ie.imm6to7
 			})
 		}
 
@@ -314,30 +314,30 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_SW_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs2_r:		u8 | 3,
-			uimm6:		u8 | 1,
-			uimm2:		u8 | 1,
+			imm6:		u8 | 1,
+			imm2:		u8 | 1,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_SW_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to1:	u8 | 2,
-			uimm2:		u8 | 1,
-			uimm3to5:	u8 | 3,
-			uimm6:		u8 | 1
+		IMM_DEC :: bit_field u8 {
+			imm0to1:	u8 | 2,
+			imm2:		u8 | 1,
+			imm3to5:	u8 | 3,
+			imm6:		u8 | 1
 		}
 
 		return C_SW{
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
 			rs2		= IReg(ie.rs2_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to1	= 0,
-				uimm2		= ie.uimm2,
-				uimm3to5	= ie.uimm3to5,
-				uimm6		= ie.uimm6
+			uimm	= u64le(IMM_DEC{
+				imm0to1	= 0,
+				imm2	= ie.imm2,
+				imm3to5	= ie.imm3to5,
+				imm6	= ie.imm6
 			})
 		}
 
@@ -345,27 +345,27 @@ handle_i16opc_q0 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_SD_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs2_r:		u8 | 3,
-			uimm6to7:	u8 | 2,
+			imm6to7:	u8 | 2,
 			rs1_r:		u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_SD_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to7:	u8 | 2
 		}
 
 		return C_SD{
 			rs1		= IReg(ie.rs1_r) + IReg.x7,
 			rs2		= IReg(ie.rs2_r) + IReg.x7,
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to7	= ie.uimm6to7
+			uimm	= u64le(IMM_DEC{
+				imm0to2	= 0,
+				imm3to5	= ie.imm3to5,
+				imm6to7	= ie.imm6to7
 			})
 		}
 	}
@@ -395,16 +395,16 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			// return HINT{} TODO handle hints
 		}
 
-		UIMM_DEC :: bit_field u8 {
+		IMM_DEC :: bit_field u8 {
 			imm0to4:	u8 | 5,
 			imm5:		u8 | 1
 		}
 
 		return C_ADDI{
-			rd	= IReg(ie.rd_rs1),
-			rs1	= IReg(ie.rd_rs1),
-			imm	= sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			rd		= IReg(ie.rd_rs1),
+			rs1		= IReg(ie.rd_rs1),
+			simm	= sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0to4	= ie.imm0to4,
 					imm5	= ie.imm5
 				}),
@@ -423,16 +423,16 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 		ie := transmute(C_ADDIW_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
+		IMM_DEC :: bit_field u8 {
 			imm0to4:	u8 | 5,
 			imm5:		u8 | 1
 		}
 
 		return C_ADDIW{
-			rd	= IReg(ie.rd_rs1),
-			rs1	= IReg(ie.rd_rs1),
-			imm	= sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			rd		= IReg(ie.rd_rs1),
+			rs1		= IReg(ie.rd_rs1),
+			simm	= sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0to4	= ie.imm0to4,
 					imm5	= ie.imm5
 				}),
@@ -456,15 +456,15 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			// return HINT{} TODO handle hints
 		}
 
-		UIMM_DEC :: bit_field u8 {
+		IMM_DEC :: bit_field u8 {
 			imm0to4:	u8 | 5,
 			imm5:		u8 | 1
 		}
 
 		return C_LI{
-			rd	= IReg(ie.rd),
-			imm	= sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			rd		= IReg(ie.rd),
+			simm	= sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0to4	= ie.imm0to4,
 					imm5	= ie.imm5
 				}),
@@ -505,7 +505,7 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			ie := transmute(C_ADDI16SP_ENC) ie
 
-			UIMM_DEC :: bit_field u32le {
+			IMM_DEC :: bit_field u32le {
 				imm0to3:	u8		| 4,
 				imm4:		u8		| 1,
 				imm5:		u8		| 1,
@@ -516,9 +516,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 			return C_ADDI16SP{
-				rd	= IReg(ie.rd),
-				imm	= sign_extend_to_i64le(
-					u64le(UIMM_DEC{
+				rd		= IReg(ie.rd),
+				simm	= sign_extend_to_i64le(
+					u64le(IMM_DEC{
 						imm0to3		= 0,
 						imm4		= ie.imm4,
 						imm5		= ie.imm5,
@@ -542,7 +542,7 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 			ie := transmute(C_LUI_ENC) ie
 
-			UIMM_DEC :: bit_field u32le {
+			IMM_DEC :: bit_field u32le {
 				imm0to11:	u16le	| 12,
 				imm12to16:	u8		| 5,
 				imm17:		u8		| 1,
@@ -550,9 +550,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			}
 
 			return C_LUI{
-				rd	= IReg(ie.rd),
-				imm	= sign_extend_to_i64le(
-					u64le(UIMM_DEC{
+				rd		= IReg(ie.rd),
+				simm	= sign_extend_to_i64le(
+					u64le(IMM_DEC{
 						imm0to11	= 0,
 						imm12to16	= ie.imm12to16,
 						imm17		= ie.imm17,
@@ -566,23 +566,23 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 	case 0x4:
 		I16_Base_Funct2 :: bit_field u16le {
 			opc:		u8 | 2,
-			uimm0to4:	u8 | 5,
+			imm0to4:	u8 | 5,
 			rd_rs1_r:	u8 | 3,
 			funct2:		u8 | 2,
-			uimm5:		u8 | 1,
+			imm5:		u8 | 1,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(I16_Base_Funct2) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to4:	u8	| 5,
-			uimm5:		u8	| 1,
+		IMM_DEC :: bit_field u8 {
+			imm0to4:	u8	| 5,
+			imm5:		u8	| 1,
 		}
 
 		switch ie.funct2 {
 		case 0x0:
-			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+			if ie.imm0to4 == 0 && ie.imm5 == 0 {
 				return
 				// return HINT{} TODO handle hints
 			}
@@ -590,14 +590,14 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			return C_SRLI{
 				rd		= IReg(ie.rd_rs1_r) + IReg.x7,
 				rs1		= IReg(ie.rd_rs1_r) + IReg.x7,
-				uimm	= u64le(UIMM_DEC{
-					uimm0to4	= ie.uimm0to4,
-					uimm5		= ie.uimm5
+				uimm	= u64le(IMM_DEC{
+					imm0to4	= ie.imm0to4,
+					imm5	= ie.imm5
 				}),
 			}
 
 		case 0x1:
-			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+			if ie.imm0to4 == 0 && ie.imm5 == 0 {
 				return
 				// return HINT{} TODO handle hints
 			}
@@ -605,25 +605,25 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			return C_SRAI{
 				rd		= IReg(ie.rd_rs1_r) + IReg.x7,
 				rs1		= IReg(ie.rd_rs1_r) + IReg.x7,
-				uimm	= u64le(UIMM_DEC{
-					uimm0to4	= ie.uimm0to4,
-					uimm5		= ie.uimm5
+				uimm	= u64le(IMM_DEC{
+					imm0to4	= ie.imm0to4,
+					imm5	= ie.imm5
 				}),
 			}
 
 		case 0x2:
-			if ie.uimm0to4 == 0 && ie.uimm5 == 0 {
+			if ie.imm0to4 == 0 && ie.imm5 == 0 {
 				return
 				// return HINT{} TODO handle hints
 			}
 
 			return C_ANDI{
-				rd	= IReg(ie.rd_rs1_r) + IReg.x7,
-				rs1	= IReg(ie.rd_rs1_r) + IReg.x7,
-				imm	= sign_extend_to_i64le(
-					u64le(UIMM_DEC{
-						uimm0to4	= ie.uimm0to4,
-						uimm5		= ie.uimm5
+				rd		= IReg(ie.rd_rs1_r) + IReg.x7,
+				rs1		= IReg(ie.rd_rs1_r) + IReg.x7,
+				simm	= sign_extend_to_i64le(
+					u64le(IMM_DEC{
+						imm0to4	= ie.imm0to4,
+						imm5	= ie.imm5
 					}),
 					6
 				)
@@ -757,7 +757,7 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 		ie := transmute(C_J_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
+		IMM_DEC :: bit_field u16le {
 			imm0:		u8 | 1,
 			imm1to3:	u8 | 3,
 			imm4:		u8 | 1,
@@ -770,8 +770,8 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 
 		return C_J{
-			imm = sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			simm = sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0	= 0,
 					imm1to3	= ie.imm1to3,
 					imm4	= ie.imm4,
@@ -800,7 +800,7 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 		ie := transmute(C_BEQZ_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
+		IMM_DEC :: bit_field u16le {
 			imm0:		u8 | 1,
 			imm1to2:	u8 | 2,
 			imm3to4:	u8 | 2,
@@ -811,9 +811,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 
 		return C_BEQZ{
-			rs1	= IReg(ie.rs1_r) + IReg.x7,
-			imm = sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			rs1		= IReg(ie.rs1_r) + IReg.x7,
+			simm	= sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0		= 0,
 					imm1to2		= ie.imm1to2,
 					imm3to4		= ie.imm3to4,
@@ -840,7 +840,7 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 
 		ie := transmute(C_BNEZ_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
+		IMM_DEC :: bit_field u16le {
 			imm0:		u8 | 1,
 			imm1to2:	u8 | 2,
 			imm3to4:	u8 | 2,
@@ -851,9 +851,9 @@ handle_i16opc_q1 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		}
 
 		return C_BNEZ{
-			rs1	= IReg(ie.rs1_r) + IReg.x7,
-			imm = sign_extend_to_i64le(
-				u64le(UIMM_DEC{
+			rs1		= IReg(ie.rs1_r) + IReg.x7,
+			simm	= sign_extend_to_i64le(
+				u64le(IMM_DEC{
 					imm0		= 0,
 					imm1to2		= ie.imm1to2,
 					imm3to4		= ie.imm3to4,
@@ -876,71 +876,71 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 	case 0x0:
 		C_SLLI_ENC :: bit_field u16le {
 			opc:		u8 | 2,
-			uimm0to4:	u8 | 5,
+			imm0to4:	u8 | 5,
 			rd_rs1:		u8 | 5,
-			uimm5:		u8 | 1,
+			imm5:		u8 | 1,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_SLLI_ENC) ie
 
-		if ie.rd_rs1 == 0 || (ie.uimm0to4 == 0 && ie.uimm5 == 0) {
+		if ie.rd_rs1 == 0 || (ie.imm0to4 == 0 && ie.imm5 == 0) {
 			return
 			// HINT{} TODO handle hints
 		}
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to4:	u8 | 5,
-			uimm5:		u8 | 1
+		IMM_DEC :: bit_field u8 {
+			imm0to4:	u8 | 5,
+			imm5:		u8 | 1
 		}
 
 		return C_SLLI{
 			rd		= IReg(ie.rd_rs1),
 			rs1		= IReg(ie.rd_rs1),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to4	= ie.uimm0to4,
-				uimm5		= ie.uimm5
+			uimm	= u64le(IMM_DEC{
+				imm0to4	= ie.imm0to4,
+				imm5	= ie.imm5
 			})
 		}
 
 	case 0x1:
 		C_FLDSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
-			uimm6to8:	u8 | 3,
-			uimm3to4:	u8 | 2,
+			imm6to8:	u8 | 3,
+			imm3to4:	u8 | 2,
 			rd:			u8 | 5,
-			uimm5:		u8 | 1,
+			imm5:		u8 | 1,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_FLDSP_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
-			uimm0to2:	u8 | 3,
-			uimm3to4:	u8 | 2,
-			uimm5:		u8 | 1,
-			uimm6to8:	u8 | 3,
-			uimm9to15:	u8 | 7
+		IMM_DEC :: bit_field u16le {
+			imm0to2:	u8 | 3,
+			imm3to4:	u8 | 2,
+			imm5:		u8 | 1,
+			imm6to8:	u8 | 3,
+			imm9to15:	u8 | 7
 		}
 
 		return C_FLDSP{
 			rd		= FReg(ie.rd),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to4	= ie.uimm3to4,
-				uimm5		= ie.uimm5,
-				uimm6to8	= ie.uimm6to8,
-				uimm9to15	= 0
+			uimm	= u64le(IMM_DEC{
+				imm0to2		= 0,
+				imm3to4		= ie.imm3to4,
+				imm5		= ie.imm5,
+				imm6to8		= ie.imm6to8,
+				imm9to15	= 0
 			})
 		}
 
 	case 0x2:
 		C_LWSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
-			uimm6to7:	u8 | 2,
-			uimm2to4:	u8 | 3,
+			imm6to7:	u8 | 2,
+			imm2to4:	u8 | 3,
 			rd:			u8 | 5,
-			uimm5:		u8 | 1,
+			imm5:		u8 | 1,
 			funct3:		u8 | 3
 		}
 
@@ -950,30 +950,30 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			return // ILLEGAL{}
 		}
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to1:	u8 | 2,
-			uimm2to4:	u8 | 3,
-			uimm5:		u8 | 1,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to1:	u8 | 2,
+			imm2to4:	u8 | 3,
+			imm5:		u8 | 1,
+			imm6to7:	u8 | 2
 		}
 
 		return C_LWSP{
 			rd		= IReg(ie.rd),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to1	= 0,
-				uimm2to4	= ie.uimm2to4,
-				uimm5		= ie.uimm5,
-				uimm6to7	= ie.uimm6to7
+			uimm	= u64le(IMM_DEC{
+				imm0to1	= 0,
+				imm2to4	= ie.imm2to4,
+				imm5	= ie.imm5,
+				imm6to7	= ie.imm6to7
 			})
 		}
 
 	case 0x3:
 		C_LDSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
-			uimm6to8:	u8 | 3,
-			uimm3to4:	u8 | 2,
+			imm6to8:	u8 | 3,
+			imm3to4:	u8 | 2,
 			rd:			u8 | 5,
-			uimm5:		u8 | 1,
+			imm5:		u8 | 1,
 			funct3:		u8 | 3
 		}
 
@@ -983,22 +983,22 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 			return // ILLEGAL{}
 		}
 
-		UIMM_DEC :: bit_field u16le {
-			uimm0to2:	u8 | 3,
-			uimm3to4:	u8 | 2,
-			uimm5:		u8 | 1,
-			uimm6to8:	u8 | 3,
-			uimm9to15:	u8 | 7
+		IMM_DEC :: bit_field u16le {
+			imm0to2:	u8 | 3,
+			imm3to4:	u8 | 2,
+			imm5:		u8 | 1,
+			imm6to8:	u8 | 3,
+			imm9to15:	u8 | 7
 		}
 
 		return C_LDSP{
 			rd		= IReg(ie.rd),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to4	= ie.uimm3to4,
-				uimm5		= ie.uimm5,
-				uimm6to8	= ie.uimm6to8,
-				uimm9to15	= 0
+			uimm	= u64le(IMM_DEC{
+				imm0to2		= 0,
+				imm3to4		= ie.imm3to4,
+				imm5		= ie.imm5,
+				imm6to8		= ie.imm6to8,
+				imm9to15	= 0
 			})
 		}
 
@@ -1061,27 +1061,27 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_FSDSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs1:		u8 | 5,
-			uimm6to8:	u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm6to8:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_FSDSP_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to8:	u8 | 3,
-			uimm9to15:	u8 | 7
+		IMM_DEC :: bit_field u16le {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to8:	u8 | 3,
+			imm9to15:	u8 | 7
 		}
 
 		return C_FSDSP{
 			rs1		= FReg(ie.rs1),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to8	= ie.uimm6to8,
-				uimm9to15	= 0
+			uimm	= u64le(IMM_DEC{
+				imm0to2		= 0,
+				imm3to5		= ie.imm3to5,
+				imm6to8		= ie.imm6to8,
+				imm9to15	= 0
 			})
 		}
 
@@ -1089,25 +1089,25 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_SWSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs1:		u8 | 5,
-			uimm6to7:	u8 | 2,
-			uimm2to5:	u8 | 4,
+			imm6to7:	u8 | 2,
+			imm2to5:	u8 | 4,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_SWSP_ENC) ie
 
-		UIMM_DEC :: bit_field u8 {
-			uimm0to1:	u8 | 2,
-			uimm2to5:	u8 | 4,
-			uimm6to7:	u8 | 2
+		IMM_DEC :: bit_field u8 {
+			imm0to1:	u8 | 2,
+			imm2to5:	u8 | 4,
+			imm6to7:	u8 | 2
 		}
 
 		return C_SWSP{
 			rs1		= IReg(ie.rs1),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to1	= 0,
-				uimm2to5	= ie.uimm2to5,
-				uimm6to7	= ie.uimm6to7,
+			uimm	= u64le(IMM_DEC{
+				imm0to1	= 0,
+				imm2to5	= ie.imm2to5,
+				imm6to7	= ie.imm6to7,
 			})
 		}
 
@@ -1115,27 +1115,27 @@ handle_i16opc_q2 :: proc(ie: I16_Base) -> (id: IDec = ILLEGAL{}) {
 		C_SDSP_ENC :: bit_field u16le {
 			opc:		u8 | 2,
 			rs1:		u8 | 5,
-			uimm6to8:	u8 | 3,
-			uimm3to5:	u8 | 3,
+			imm6to8:	u8 | 3,
+			imm3to5:	u8 | 3,
 			funct3:		u8 | 3
 		}
 
 		ie := transmute(C_SDSP_ENC) ie
 
-		UIMM_DEC :: bit_field u16le {
-			uimm0to2:	u8 | 3,
-			uimm3to5:	u8 | 3,
-			uimm6to8:	u8 | 3,
-			uimm9to15:	u8 | 7
+		IMM_DEC :: bit_field u16le {
+			imm0to2:	u8 | 3,
+			imm3to5:	u8 | 3,
+			imm6to8:	u8 | 3,
+			imm9to15:	u8 | 7
 		}
 
 		return C_SDSP{
 			rs1		= IReg(ie.rs1),
-			uimm	= u64le(UIMM_DEC{
-				uimm0to2	= 0,
-				uimm3to5	= ie.uimm3to5,
-				uimm6to8	= ie.uimm6to8,
-				uimm9to15	= 0
+			uimm	= u64le(IMM_DEC{
+				imm0to2		= 0,
+				imm3to5		= ie.imm3to5,
+				imm6to8		= ie.imm6to8,
+				imm9to15	= 0
 			})
 		}
 
